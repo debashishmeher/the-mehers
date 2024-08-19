@@ -1,0 +1,118 @@
+.admin-container{
+    display: flex;
+    align-items: stretch;
+    position: relative;
+}
+.side-container{
+    position: sticky;
+    top: calc(10vh + 1rem);
+}
+.admin-side{
+    background-color: rgb(229, 229, 229);
+    padding: 1rem;
+    transition: 0.5s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.admin-toggle{
+    position: sticky;
+    cursor: pointer;
+    padding-left: 10px;
+}
+
+.admin-nav-list li a{
+    display: flex;
+    font-size: 1rem;
+    padding: 10px;
+    /* gap: 1rem; */
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.side-name {
+    transform: translateX(26px);
+    overflow: hidden;
+    width: 0;
+    transition: 0.5s;
+}
+.side-active{
+    margin-left: 1rem;
+    transform: translateX(0px);
+    width: 100%;
+}
+
+.admin-main {
+    /* background-color: rgb(18, 117, 204); */
+    height: 200vh;
+    width: 100%;
+    margin: 10px;
+    border-radius: 10px;
+}
+.admin-btn{
+    padding:  10px 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+    background-color: rgb(84, 84, 255);
+    border: 2px solid rgb(81, 81, 254);
+    border-radius: 5px;
+    color: white;
+    box-shadow: 0 0 5px rgba(54, 54, 54, 0.555);
+    cursor: pointer;
+}
+.product-table {
+    margin: 10px;
+    border-radius: 10px;
+    overflow-x: auto;
+}
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    padding: 1rem;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: rgb(201, 201, 201);
+  }
+
+
+/* admin product page----------------- */
+.search-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 2rem 1rem;
+    gap: 1rem;
+    border-radius: 10px;
+    background-color: rgb(222, 222, 222);
+}
+.input-box{
+    label{
+        text-transform: uppercase;
+        font-weight: 600;
+        color: rgb(31, 31, 31);
+    }
+    input{
+        padding: 5px 10px;
+        border: 2px solid rgba(79, 79, 79, 0.532);
+        background-color: transparent;
+        border-radius: 5px;
+        min-width: 200px;
+    }
+}
+@media screen and (max-width:650px){
+    .input-box input{
+        width: 100%;
+    }
+    .admin-btn{
+        flex: 1;
+    }
+}

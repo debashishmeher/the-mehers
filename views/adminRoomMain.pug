@@ -1,0 +1,24 @@
+
+extends admin
+
+
+block admin-main 
+    h2 All Rooms
+    table 
+        tr 
+            th Sl.No
+            th Room No
+            th Type 
+            th Comfort 
+            th Price 
+        each room, index in rooms
+            tr 
+                td=index 
+                td
+                    a(href=`/admin/room/${room.id}`)=room.roomNo
+                td=room.roomType
+                td=room.comfort
+                td=room.price
+    br
+    a.createRoom(href="/admin/room/create")
+        button.btn create room 

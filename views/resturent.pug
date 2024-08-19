@@ -1,0 +1,60 @@
+extend base 
+
+block content
+    include _search
+    .restaurant-home 
+        .restaurant-left 
+            span.heighlite.white restaurant
+            h1.heading-main order your favorite food at your home
+            button.btn explore
+            button.btn book table 
+            .food-demo 
+                .demo-item
+                    img(src="/./image/salad plate.png" alt="")
+                .demo-item
+                    img(src="/./image/salad plate.png" alt="")
+                .demo-item
+                    img(src="/./image/salad plate.png" alt="")
+
+        .salad 
+            img(src="/./image/salad plate.png" alt="")
+    .restaurant-catagory 
+        .catagory-container
+            .catagory 
+                img(src="/./image/salad plate.png" alt="")
+                p.bold cat 1
+            .catagory 
+                img(src="/./image/salad plate.png" alt="")
+                p.bold cat 1
+            .catagory 
+                img(src="/./image/salad plate.png" alt="")
+                p.bold cat 1
+            .catagory 
+                img(src="/./image/salad plate.png" alt="")
+                p.bold cat 1
+            .catagory 
+                img(src="/./image/salad plate.png" alt="")
+                p.bold cat 1
+            .catagory 
+                img(src="/./image/salad plate.png" alt="")
+                p.bold cat 1
+            .catagory 
+                img(src="/./image/salad plate.png" alt="")
+                p.bold cat 1
+            .catagory 
+                img(src="/./image/salad plate.png" alt="")
+                p.bold cat 1
+    .restaurant-food-container
+        .top-items 
+            each food of foods
+                .items
+                    a(href=`/food/${food.id}`)
+                        img(src=`/./image/upload/${food.photo[0]}`, alt="")
+                    .item-info
+                        p.item-name=food.name
+                        p.item-price=`₹ ${food.price}.00`
+                        .item-btns
+                            button.btn.buy.cartBtn(data-foodId=`${food.id}` data-quantity=1) cart
+            a(href="/food").see-more 
+                .see-more-btn.align-center 
+                    span &#8811;

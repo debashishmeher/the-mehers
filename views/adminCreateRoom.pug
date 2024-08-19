@@ -1,0 +1,28 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title srigandaram jewellers | admin 
+        link(rel="stylesheet", href="/./css/common.css")
+        link(rel="stylesheet", href="/./css/admin.css")
+        link(rel="stylesheet", href="/./css/login.css")
+        link(rel="stylesheet", href="/./css/responsive.css")
+    body 
+        header.header.sub-headbar
+            .left-arrow(onclick="goback()")
+                <svg enable-background="new 0 0 45 34" height="24px" id="Layer_1" version="1.1" viewBox="0 0 45 34" width="45px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon fill="#ffffff" points="19.626,31.705 7.712,20 45,20 45,15 7.712,15 19.626,3.006 16.798,0.273 -0.38,17.499   16.798,34.605 "/></svg>
+            h2 ADMIN
+        section.admin-container 
+            .admin-side 
+                ul 
+                    li: a(href="/admin/blogs") blogs
+                    li: a(href="/admin/products") products
+                    li: a(href="/admin/enquary") enquaries
+                    li: a(href="#") management
+            .admin-main 
+                block admincontent
+        
+
+        //- script
+        script(src="/./js/index.js") 

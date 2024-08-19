@@ -1,0 +1,42 @@
+extends base 
+
+block content 
+    include _search
+    .food-item-main 
+        .food-photos-container.align-center 
+            .container
+                .food-photo-main 
+                    img#mainPhoto(src=`/./image/upload/${food.photo[0]}`, alt="")
+                .food-sub-photo 
+                    each photo of food.photo
+                        img(src=`/./image/upload/${photo}`, alt="" onclick=`changePhoto("/./image/upload/${photo}")`).sub-photo
+
+        .food-item-info 
+            h3=food.name
+            p.para=food.desc
+            .rating * * * * * (26)
+            .item-price=`₹ ${food.price}.00`
+            p.food-catagory=food.catagory
+            .item-btns
+                button.buy cart
+                button.buy buy
+    h2.heading similar food
+    .food-container 
+        each fooditem of foods
+            .items
+                a(href=`/food/${fooditem.id}`)
+                    img(src=`/./image/upload/${fooditem.photo[0]}`, alt="")
+                .item-info
+                    p.item-name=fooditem.name
+                    p.item-price=`₹ ${fooditem.price}.00`
+                    .item-btns
+                        button.btn.buy.cartBtn(data-foodId=`${food.id}` data-quantity=1) cart
+    .align-center
+        .review-container 
+            each reviews of food.reviews
+                .review-box 
+                    .review-user-img
+                        img(src=`/./image/upload/default-user.png`, alt="")
+                    p.user-name=reviews.user.name
+                    .rating * * * * *  
+                    p.review=reviews.review

@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: rgb(67, 67, 67);
+  height: 8px;
+
+}
+
+::-webkit-scrollbar-thumb {
+  cursor: pointer;
+  background: var(--theme-color);
+  border-radius: 1rem;
+  border: 3px solid rgb(67, 67, 67);
+}
+:root {
+    --theme-color: rgb(220, 162, 63);
+    --font-family: "Lato", sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+}
+.comming{
+  height: 100vh;
+  background-color: rgb(26, 26, 26);
+  display: grid;
+  /* align-items: center; */
+  place-items: center;
+}
+.soon{
+  font-size: 2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: white;
+}
+
+.align-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mainheader {
+  position: relative;
+  width: 100%;
+}
+
+.btn {
+    background-color: var(--theme-color);
+    padding: 10px;
+    border-radius: 10px;
+
+}
+
+ul {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(38, 38, 38);
+}
+
+h3 {
+    text-transform: uppercase;
+    font-size: 2rem;
+}
+
+.form{
+    background-color: brown;
+    display: flex;
+}
+
+
+.alert {
+    position: fixed;
+    text-align: center;
+    z-index: 999999;
+    left: 50%;
+    transform: translate(-50%);
+    top: calc((10vh + 1rem));
+    padding: 10px;
+    border-radius: 10px;
+    transition: 0.5s;
+    letter-spacing: 1px;
+    font-weight: 600;
+    animation: alertAnim 0.5s 1 linear;
+  }
+
+  @keyframes alertAnim {
+    0% {
+      transform: translate(-50%, -1rem);
+      opacity: 0;
+    }
+  
+    100% {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+  }
+  
+  .alert-success {
+    background-color: rgb(55, 170, 55);
+    color: white;
+  }
+  
+  .alert-err {
+    background-color: rgb(170, 55, 55);
+    color: white;
+  }
+  
+  .sub-header{
+    background-color: rgb(202, 202, 202);
+    padding: 0 5%;
+    height: 10vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.left-arrow{
+    cursor: pointer;
+}
+.sticky {
+  position: fixed;
+  /* background-color: white; */
+  z-index: 999;
+  top: 0;
+  left: 0;
+}

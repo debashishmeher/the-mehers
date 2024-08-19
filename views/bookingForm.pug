@@ -1,0 +1,35 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title roop residency 
+        link(rel="stylesheet", href="/common.css")
+        link(rel="stylesheet", href="/style.css")
+        link(rel="stylesheet", href="/responsive.css")
+        link(rel="stylesheet",href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0")
+    body 
+        .booking-form-container 
+            .booking-container 
+                form#roombooking.simpleForm(data-id=`${roomId}`)
+                    h2 Room Booking
+                    .input-box 
+                      label(for="bookingName")  Name -
+                      input#bookingName(type="text", name="name")     
+                    .input-box 
+                      label(for="bookingEmail")  Email -
+                      input#bookingEmail(type="text", name="email")     
+                    .input-box 
+                      label(for="bookingPhone")  Phone no -
+                      input#bookingPhone(type="number", name="phone")     
+                    .input-box 
+                      label(for="bookingAdhar")  Adhar -
+                      input#bookingAdhar(type="number", name="adhar")     
+                    .input-box 
+                      label(for="bookingMember")  Members -
+                      input#bookingMember(type="number", name="member")     
+                    .input-box 
+                      label(for="bookingDay")  Day -
+                      input#bookingDay(type="number", name="day")       
+                    button.btn(type="submit") booking
+        script(src="/./main.js")

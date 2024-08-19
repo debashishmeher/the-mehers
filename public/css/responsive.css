@@ -1,0 +1,59 @@
+@media screen and (max-width:420px) {
+    .toggle {
+        display: block;
+    }
+
+    .search-box {
+        margin-top: 1rem;
+        order: 3;
+        flex-grow: 1;
+    }
+}
+
+@media screen and (max-width:650px) {
+    .cross {
+        display: block;
+        width: 24px;
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+    }
+
+    .navbar {
+        position: fixed;
+        z-index: 999;
+        left: -100%;
+        top: 0;
+        background-color: white;
+        height: 100vh;
+        width: 90vw;
+        transition: 0.5s ease-in;
+
+    }
+
+    .navbar ul {
+        border: none;
+        width: 80%;
+        margin-top: 3rem;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .navbar ul li a {
+        display: inline-block;
+        width: 100%;
+        padding: 1rem;
+
+    }
+
+    .navslide {
+        left: 0;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .catagory-conteiner {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+    }
+}

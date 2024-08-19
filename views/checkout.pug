@@ -1,0 +1,83 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title hotel the moon | cart 
+        link(rel="stylesheet" href="/common.css")
+        link(rel="stylesheet" href="/style.css")
+        link(rel="stylesheet" href="/responsive.css")
+        link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0")
+    body 
+        header.header.sub-headbar
+            .left-arrow(onclick="goback()")
+                <svg enable-background="new 0 0 45 34" height="24px" id="Layer_1" version="1.1" viewBox="0 0 45 34" width="45px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon fill="#ffffff" points="19.626,31.705 7.712,20 45,20 45,15 7.712,15 19.626,3.006 16.798,0.273 -0.38,17.499   16.798,34.605 "/></svg>
+            h2 CART
+        form#order-details.cart-page
+            .cart-container 
+                each item, index in items
+                    .cart-items 
+                        .cart-item-box
+                            .cart-item-img 
+                                img(src=`/./image/upload/${item.food.photo[0]}`, alt="") 
+                            .cart-item-info 
+                                p.item-name=item.food.name
+                                p.item-price=`₹ ${item.food.price*item.quantity}.00`
+                        .quantity     
+                            p.foodQuantity=item.quantity
+            .order-address  
+                h2 order details
+                .input-box 
+                    label(for="phone")  Phone no -
+                    input#name(type="number" name="phone")
+                .input-box 
+                    label(for="payType")  cod -
+                    input(type="radio" name="payType" , value="cod") 
+                .input-box 
+                    label(for="payType")  online -
+                    input(type="radio" name="payType" , value="online") 
+                    //- input(type="radio" name="payType" , value="cod") 
+                .address-option
+                    each addres of address
+                        .input-box.address-box 
+                            input(type="radio" name="address" value=`${addres.home}, ${addres.street}, ${addres.city}, ${addres.pin}`)
+                            label(for="address")=`${addres.home}, ${addres.street}, ${addres.city}, ${addres.pin}`
+                .btn.add(onclick="showUserEdit()") add address
+
+
+            .calculation
+                .calculation-container 
+                    .calculation-box 
+                        span.cal-head sub total 
+                        span.cal-val=total
+                    .calculation-box 
+                        span.cal-head sipping
+                        span.cal-val=sipping
+                    .calculation-box.grand-total 
+                        span.cal-head grand total 
+                        span.cal-val=`${total + sipping}`
+                    //- button(type="submit").btn#checkout buy
+                    button.btn#checkout buy
+
+        .form-body.align-center.editactive
+            form#user-address.user-box
+                <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="24" height="24" fill="#ffffff" onclick="showUserEdit()" ><path d="M23.707.293h0a1,1,0,0,0-1.414,0L12,10.586,1.707.293a1,1,0,0,0-1.414,0h0a1,1,0,0,0,0,1.414L10.586,12,.293,22.293a1,1,0,0,0,0,1.414h0a1,1,0,0,0,1.414,0L12,13.414,22.293,23.707a1,1,0,0,0,1.414,0h0a1,1,0,0,0,0-1.414L13.414,12,23.707,1.707A1,1,0,0,0,23.707.293Z"/></svg>
+                .user-info 
+                    .input-box 
+                        label(for="name")  home -
+                        input#name(type="text" name="home")  
+                    .input-box 
+                        label(for="street")  street -
+                        input#email(type="text" name="street")  
+                    .input-box 
+                        label(for="city")  city -
+                        input#email(type="text" name="city")  
+                    .input-box 
+                        label(for="pin")  pin -
+                        input#email(type="number" name="pin")   
+                button(type="submit").user-edit save
+
+
+        script(src="https://checkout.razorpay.com/v1/checkout.js") 
+        script(src="/./js/frontend.js") 
+        script(src="/./main.js")

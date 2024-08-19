@@ -1,0 +1,25 @@
+extends admin 
+
+block admin-main 
+    
+    h1.heading-h1 Create Rooms
+    .create-container.contact-form 
+        h2 Rooms 
+        form(action="/admin/createroom", method="post",content-type="multipart/form-data")
+            .input-box 
+                input(type="number", name="roomNo",placeholder="Room Number")
+            .input-select
+                select(name="roomType",id="roomType")  
+                    option(value="room type") Select room-type
+                    option(value="ac room") AC Room
+                    option(value="non-ac room") Non-AC Room
+                    option(value="hall") Hall 
+            .input-box 
+                input(type="number", name="roomPrice",placeholder="Price")
+            .input-select
+                select(name="capacity",id="capacity")  
+                    option(value="room type")  capacity
+                    option(value="1") 1
+                    option(value="2") 2
+                    option(value="3") 3
+            button.btn(type="submit") create

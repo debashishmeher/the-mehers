@@ -1,0 +1,33 @@
+extend admin
+
+block admincontent
+    .admin-product 
+        form#product-search.search-item 
+            .input-box 
+                label(for="name") name :- 
+                input(type="text", name="name") 
+            .input-box 
+                label(for="code") code :- 
+                input(type="text", name="code") 
+            button.admin-btn(type="submit") search
+    .admin-product-container
+        .product-table 
+            table 
+                tr
+                    th Sl.no 
+                    th name
+                    th code
+                    th quantity
+                    th price per piece
+                    th action
+                each product , index in products
+                    tr 
+                        td=`${index + 1}`
+                        td=product.name
+                        td=product.code
+                        td=product.quantity
+                        td=product.price
+                        td 
+                            a(href=`/admin/product/${product.id}`) edit
+        .other-action 
+            button.admin-btn create product

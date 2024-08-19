@@ -1,0 +1,47 @@
+extends base
+
+block content 
+    .login-container
+      .login-img  
+      .login-form#signup-form 
+        h2 signup 
+        form.form#login(action="/login")
+          .input-box 
+            label(for="email")  email
+            span.material-symbols-outlined.icon mail  
+            input#login-email(type="text", name="login-email")     
+          .input-box 
+            label(for="password")  password 
+            span.material-symbols-outlined.icon lock  
+            input#login-password(type="password", name="login-password")     
+          button.btn(type="submit") login 
+          .login-other
+            p Dot't have an account?
+              span#signup_slider_btn Sign up
+            p Forgot 
+              a(href="/forgot") Username/Password?
+      .login-form#signup-form
+        h2 sign up
+        form(action="/signup" id="signup")
+          .input-box 
+            label(for="name")  name 
+            span.material-symbols-outlined.icon signature   
+            input#signup-name(type="text", name="name")     
+          .input-box 
+            label(for="email")  email
+            span.material-symbols-outlined.icon mail  
+            input#signup-email(type="text", name="email")     
+          .input-box 
+            label(for="password")  password 
+            span.material-symbols-outlined.icon lock  
+            input#signup-password(type="password", name="password")     
+          .input-box 
+            label(for="password") confirm password 
+            span.material-symbols-outlined.icon lock  
+            input#signup-confirmPassword(type="password", name="confirmPassword")     
+          button.btn(type="submit") signup  
+          .login-other
+            p Dot't have an account?
+              span#login_slider_btn Login
+            p Forgot 
+              a(href="/forgot") Username/Password?

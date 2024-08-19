@@ -1,0 +1,24 @@
+//- extends base
+extends admin
+
+
+block admin-main 
+    h2 Available Rooms
+    .admin-room-container 
+        each room of avlRoom 
+            .admin-room
+                .room-num=`${room.roomNo} (${room.comfort})`
+                .room-type=room.roomType 
+                .capacity=room.capacity
+                a(href=`/admin/rooms/${room.id}/booking`) 
+                    button.btn.room-book-btn book
+    h2 Booked Rooms
+    .admin-room-container  
+        each rooms of booking
+            .admin-room
+                .room-num=`${rooms.room.roomNo} (${rooms.room.comfort})`
+                .room-type=rooms.room.roomType 
+                .booking-name=rooms.name
+                .checkout-date.date=rooms.entryTime.toLocaleString()
+                .checkout-date.date=rooms.expireTime.toLocaleString()
+                button.btn.room-book-btn.bookingCancel(data-id=`${rooms.id}`) cancel

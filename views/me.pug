@@ -1,0 +1,89 @@
+
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title hotel the moon | cart 
+        link(rel="stylesheet" href="/common.css")
+        link(rel="stylesheet" href="/style.css")
+        link(rel="stylesheet" href="/responsive.css")
+        link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0")
+    body 
+        header.header.sub-headbar
+            .left-arrow(onclick="goback()")
+                <svg enable-background="new 0 0 45 34" height="24px" id="Layer_1" version="1.1" viewBox="0 0 45 34" width="45px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon fill="#ffffff" points="19.626,31.705 7.712,20 45,20 45,15 7.712,15 19.626,3.006 16.798,0.273 -0.38,17.499   16.798,34.605 "/></svg>
+            h2 Account
+        .me-page 
+            .me-left 
+                .user-box
+                    .user-photo 
+                        img(src=`/./image/user/${user.photo}`, alt="")
+                    .user-info 
+                        p.name=user.name 
+                        p.email=user.email
+                    button(type="submit" onclick="showUserEdit()").user-edit edit
+            .me-right
+                h2 food order
+                .order-food 
+                    if(orderfood.length > 0)
+                        each food of orderfood
+                            .ordered-box
+                                p.status=food.status
+                                .order-item 
+                                    span items = 
+                                    span=food.food.length
+                                .order-item 
+                                    span price = 
+                                    span=food.price
+                                .order-item 
+                                    span date = 
+                                    span=food.createdAt.toLocaleDateString()
+                                .action-btn-box
+                                    button.user-edit see more
+                        a(href="/food").see-more 
+                            .see-more-btn.align-center 
+                                span &#8811;
+                    else
+                        .empty-box 
+                            a.continue(href="/restaurant") continue order
+                h2 room booking
+                .order-food 
+                    if(roombooking.length > 0)
+                        each room of roombooking
+                            .ordered-box
+                                p.status=room.room.roomNo
+                                .order-item 
+                                    span Room type = 
+                                    span=room.room.roomType
+                                .order-item 
+                                    span price = 
+                                    span=room.room.price
+                                .order-item 
+                                    span entry date = 
+                                    span=room.entryTime.toLocaleDateString()
+                                .action-btn-box
+                                    button.user-edit see more
+                        a(href="/food").see-more 
+                            .see-more-btn.align-center 
+                                span &#8811;
+                    else
+                        .empty-box.align-center 
+                            a.continue(href="/restaurant") continue booking
+            .form-body.align-center.editactive
+                form#user-data.user-box
+                    <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="24" height="24" fill="#ffffff" onclick="showUserEdit()" ><path d="M23.707.293h0a1,1,0,0,0-1.414,0L12,10.586,1.707.293a1,1,0,0,0-1.414,0h0a1,1,0,0,0,0,1.414L10.586,12,.293,22.293a1,1,0,0,0,0,1.414h0a1,1,0,0,0,1.414,0L12,13.414,22.293,23.707a1,1,0,0,0,1.414,0h0a1,1,0,0,0,0-1.414L13.414,12,23.707,1.707A1,1,0,0,0,23.707.293Z"/></svg>
+                    .user-photo 
+                        img(src=`/./image/user/${user.photo}`, alt="", class="user-data-photo")
+                    input#user-photo(type="file", name="photo", onchange="changeuserphoto()")
+                    .user-info 
+                        .input-box 
+                            label(for="name")  Name -
+                            input#name(type="text", name="name", value=`${user.name}`)  
+                        .input-box 
+                            label(for="email")  email -
+                            input#email(type="text", name="email",value=`${user.email}`)  
+                    button(type="submit").user-edit save
+
+        script(src="/./js/frontend.js") 
+        script(src="/./main.js")

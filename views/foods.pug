@@ -1,0 +1,47 @@
+extend base 
+
+block content
+    include _search
+    .foods-page
+        .page-heading.foods-page-heading
+            h3.page-name Foods
+            .page-links 
+                a(href="/restaurant") restaurant |
+                a(href="#") foods 
+    h2.heading all catagories 
+    .restaurant-catagory 
+        .catagory-container
+            .catagory 
+                img(src="/./image/salad plate.png" alt="")
+                p.bold cat 1
+            .catagory 
+                img(src="/./image/salad plate.png" alt="")
+                p.bold cat 1
+            .catagory 
+                img(src="/./image/salad plate.png" alt="")
+                p.bold cat 1
+            .catagory 
+                img(src="/./image/salad plate.png" alt="")
+                p.bold cat 1
+            .catagory 
+                img(src="/./image/salad plate.png" alt="")
+                p.bold cat 1
+            .catagory 
+                img(src="/./image/salad plate.png" alt="")
+                p.bold cat 1
+            .catagory 
+                img(src="/./image/salad plate.png" alt="")
+                p.bold cat 1
+            .catagory 
+                img(src="/./image/salad plate.png" alt="")
+                p.bold cat 1
+    .food-container 
+        each food of foods
+            .items
+                a(href=`/food/${food.id}`)
+                    img(src=`/./image/upload/${food.photo[0]}`, alt="")
+                .item-info
+                    p.item-name=food.name
+                    p.item-price=`₹ ${food.price}.00`
+                    .item-btns
+                        button.btn.buy.cartBtn(data-foodId=`${food.id}` data-quantity=1) cart

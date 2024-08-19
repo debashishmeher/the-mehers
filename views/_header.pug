@@ -1,0 +1,38 @@
+header.header 
+    .logo hotel moon
+        span the luxury hotel 
+    nav.navbar-container 
+        ul.navbar 
+            li: a(href="/" onclick="togglefun()") HOME
+            li: a(href="/about" onclick="togglefun()") ABOUT
+            li: a(href="/rooms" onclick="togglefun()") ROOMS & SUITES
+            li: a(href="/restaurant" onclick="togglefun()") RESTAURANT
+            li: a(href="/#service" onclick="togglefun()") SERVICE 
+            li: a(href="/events" onclick="togglefun()") EVENTS
+            li: a(href="/#contact" onclick="togglefun()") CONTACT 
+            if user
+                if (user.role=="user")
+                    li: a(href="/me" onclick="togglefun()")=user.name
+                else if (user.role=="admin")
+                    li: a(href="/admin" onclick="togglefun()")=user.name
+            else 
+                li.login: a(href="/login" onclick="togglefun()") LOGIN 
+        .nav-social 
+            .logo hotel moon
+                br
+                span the luxury hotel
+            .socials 
+                a(href="https://www.facebook.com/profile.php?id=61556794866402",target="_blank")
+                    img(src="/./image/facebook-icon.svg", alt="alt")
+                a(href="https://www.instagram.com/chandra_academy__?igsh=MTd3czd2d2Fyb3F1eA==",target="_blank")
+                    img(src="/./image/insta-icon.svg", alt="alt")
+                a(href="/")
+                    img(src="/./image/whatsapp-icon.svg", alt="alt")
+                a(href="https://www.youtube.com/@ChandraAcademy.", target="_blank")
+                    img(src="/./image/youtube-icon.svg", alt="alt")
+    .toggle#toggle(onclick="togglefun()")
+        span.first
+        span.second
+        span.third
+    
+
