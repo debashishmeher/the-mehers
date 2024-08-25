@@ -1,4 +1,46 @@
 extend admin 
 
 block admincontent
-    h1 this is admin enqary
+    .enquary-container 
+        form#enquary-search.search-item 
+            .input-box 
+                label(for="name") name :- 
+                input(type="text", name="name") 
+            .input-box 
+                label(for="code") number :- 
+                input(type="number", name="code") 
+            button.admin-btn(type="submit") search
+        .enquary-info 
+            .info-box 
+                h1.info-head No. of enq.
+                p.info-num 80
+            .info-box 
+                h1.info-head Follow up
+                p.info-num 80
+            .info-box 
+                h1.info-head Pending
+                p.info-num 80
+        .enquary-main 
+            .left-enquary-main
+                table 
+                    tr
+                        th Sl.no 
+                        th name
+                        th number
+                        th action
+                    each enquary , index in unchecked
+                        tr 
+                            td=`${index + 1}`
+                            td=enquary.name
+                            td=enquary.phone 
+                            td edit
+            .right-enquary-main
+                .info-box 
+                    h1.info-head Today Task
+                    p.info-num 80
+                .info-box 
+                    h1.info-head Today calls
+                    p.info-num 80
+                .info-box 
+                    h1.info-head conversion
+                    p.info-num 80

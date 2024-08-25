@@ -1,6 +1,6 @@
 const catchAsync = require("../utility/catchAsync");
 const Product=require("../database/productModel")
-
+const Enquary=require("../database/enquaryModel")
 
 
 // controller functions----------------------
@@ -31,6 +31,9 @@ exports.adminfinance=catchAsync(async(req,res,next)=>{
 exports.adminreviews=catchAsync(async(req,res,next)=>{
   res.status(200).render("adminreviews")
 })
+
 exports.adminenquary=catchAsync(async(req,res,next)=>{
-  res.status(200).render("adminenquary")
+  const unchecked=await Enquary.find({status:"unchecked"})
+  const checked=await Enquary.find({status:"checked"})
+  res.status(201).render("adminenquary",{unchecked,checked})
 })

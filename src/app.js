@@ -22,6 +22,7 @@ const adminRouter = require("../router/adminRouter.js");
 const productRouter = require("../router/productRouter.js");
 const orderrderRouter = require("../router/orderRouter.js");
 const cartRouter = require("../router/cartRouter.js");
+const enquaryRouter=require("../router/enquaryRouter.js")
 const Notification=require("../database/notificationModel.js");
 const catchAsync = require("../utility/catchAsync.js");
 
@@ -44,6 +45,7 @@ app.use("/admin", adminRouter);
 app.use("/product", productRouter);
 app.use("/order", orderrderRouter);
 app.use("/cart", cartRouter);
+app.use("/enquary", enquaryRouter);
 
 // push notification............
 
