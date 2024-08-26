@@ -37,3 +37,10 @@ exports.adminenquary=catchAsync(async(req,res,next)=>{
   const checked=await Enquary.find({status:"checked"})
   res.status(201).render("adminenquary",{unchecked,checked})
 })
+
+exports.enquarymng=catchAsync(async(req,res,next)=>{
+  console.log("called");
+  
+  const enquary=await Enquary.findById(req.params.enquaryId)
+  res.status(201).render("enquarymng",{enquary})
+})

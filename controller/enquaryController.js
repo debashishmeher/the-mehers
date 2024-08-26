@@ -4,8 +4,6 @@ const catchAsync = require("../utility/catchAsync");
 // create enquary----------------------------
 exports.createEnquary=catchAsync(async(req,res,next)=>{
     const enquary=await Enquary.create(req.body)
-    console.log(enquary);
-    
     res.status(201).json({
         status:"success",
         message:"enquary successful",

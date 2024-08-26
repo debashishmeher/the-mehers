@@ -13,13 +13,13 @@ block admincontent
         .enquary-info 
             .info-box 
                 h1.info-head No. of enq.
-                p.info-num 80
+                p.info-num=unchecked.length
             .info-box 
                 h1.info-head Follow up
-                p.info-num 80
+                p.info-num=checked.length
             .info-box 
                 h1.info-head Pending
-                p.info-num 80
+                p.info-num=`${unchecked.length - checked.length}`
         .enquary-main 
             .left-enquary-main
                 table 
@@ -31,9 +31,10 @@ block admincontent
                     each enquary , index in unchecked
                         tr 
                             td=`${index + 1}`
-                            td=enquary.name
+                            td 
+                                a(href=`/admin/enquary/${enquary.id}`)=enquary.name
                             td=enquary.phone 
-                            td edit
+                            td=enquary.createdAt.toLocaleDateString()
             .right-enquary-main
                 .info-box 
                     h1.info-head Today Task

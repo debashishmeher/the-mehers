@@ -13,5 +13,6 @@ Router.get("/admin/orders",viewController.adminorder)
 Router.get("/admin/finance",viewController.adminfinance)
 Router.get("/admin/reviews",viewController.adminreviews)
 Router.get("/admin/enquery",viewController.adminenquary)
+Router.get("/admin/enquery/:enquaryId",viewController.enquarymng)
 
 module.exports = Router;
