@@ -32,7 +32,7 @@ block admincontent
                         tr 
                             td=`${index + 1}`
                             td 
-                                a(href=`/admin/enquary/${enquary.id}`)=enquary.name
+                                a(href=`/enquary/${enquary.id}`)=enquary.name
                             td=enquary.phone 
                             td=enquary.createdAt.toLocaleDateString()
             .right-enquary-main

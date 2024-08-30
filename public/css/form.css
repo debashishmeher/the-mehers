@@ -27,13 +27,22 @@ form{
     display: flex;
     justify-content: space-between;
 }
-input{
+
+input,select{
     border: none;
-    border-bottom: 1px solid white;
+    border: 2px solid white;
+    border-radius: 5px;
     background-color: transparent;
     padding: 5px;
     width: 100%;
-    color: white;
+    /* color: white; */
+}
+option{
+    padding: 5px;
+    background-color: rgb(193, 246, 255);
+    text-align: center;
+    font-size: 1.1rem;
+    border: 2px solid white;
 }
 label{
     color: white;

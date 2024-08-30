@@ -25,6 +25,11 @@ const enquarySchema = new mongoose.Schema({
     type:String,
     enum:["checked","unchecked"],
     default:"unchecked"
+  },
+  type:{
+    type:String,
+    enum:["cold","warm","hot"],
+    default:"cold"
   }
 });
 

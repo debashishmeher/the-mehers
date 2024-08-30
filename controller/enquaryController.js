@@ -13,7 +13,10 @@ exports.createEnquary=catchAsync(async(req,res,next)=>{
 
 // find all enquary----------------------------------------------
 
-
+exports.getOneEnquary=catchAsync(async(req,res,next)=>{
+    const enquary=await Enquary.findById(req.params.enquaryId)
+    res.status(201).render("enquarymng",{enquary})
+  })
 // update one enquary
 exports.deleteEnquary=catchAsync(async(req,res,next)=>{
     const enquary=await Enquary.findById(req.params.enquaryId)

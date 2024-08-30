@@ -1,4 +1,25 @@
 extend admin 
 
 block admincontent
-    h1 this is enquary mng page
+    .enq-mng-container 
+        .enq-info-box 
+            .enq-info 
+                h2.enq-name=enquary.name
+                p.enq-phone=enquary.phone
+                p.enq-email=enquary.email
+                p.date=enquary.createdAt.toLocaleDateString()
+                p.enq-type=enquary.type
+            .enq-action 
+                button.admin-btn schedule
+                button.admin-btn update
+                button.admin-btn delete
+        .schedule-box 
+            .schedule-head.align-center 
+                p Schedule
+            ul.schedule-list 
+                li 
+                    p.sl-no 1
+                    p.sl-no 42-05-2023
+                    p.sl-no call
+                    p.sl-no Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo eum molestiae eveniet recusandae reiciendis laborum, adipisci, aliquid accusantium, odit culpa beatae veniam provident necessitatibus consequatur dolorem deleniti earum fugit eius!
+                    p.sl-no D   U
