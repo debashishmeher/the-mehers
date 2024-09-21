@@ -1,18 +1,43 @@
 .login-container{
-    display: grid;
-    place-items: center;
-    min-height: 100vh;
-    padding: 3rem 5%;
+    margin: 2rem;
+    background-color: rgb(184, 184, 255);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.438);
+    padding: 2rem;
+    width: 1000px;
+    /* height: 100vh; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
 }
-.form{
-    background-color: rgb(32, 32, 32);
-    padding: 1rem;
+.doddle{
+    flex-basis: 60%;
+    /* background-color: brown; */
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+    img{
+        max-width: 500px;
+    }
+}
+.account-form{
+    flex-basis: 40%;
+    flex-grow: 1;
+    /* background-color: rgb(32, 32, 32); */
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     gap: 1rem;
 } 
-.form .btn{
+.login-logo{
+    width: 100px;
+    margin: auto;
+    img{
+        width: 100%;
+    }
+}
+ .btn{
     flex-grow: 1;
 }  
 .form-heading{

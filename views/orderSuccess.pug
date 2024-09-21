@@ -1,0 +1,7 @@
+extend base 
+
+block content 
+    .success-order 
+        .success-info 
+            p.order-items=`orderitem is ${order.product.length}`
+            p.success-status=order.status

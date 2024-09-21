@@ -3,27 +3,31 @@ html(lang="en")
     head
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title roop residency 
-        link(rel="stylesheet", href="/style.css")
-        link(rel="stylesheet",href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0")
+        title Srigandaram jewellers & sons | login 
+        link(rel="stylesheet", href="/./css/common.css")
+        link(rel="stylesheet", href="/./css/login.css")
+        link(rel="stylesheet", href="/./css/responsive.css")
     body 
-        #loading 
-            .loader 
+        .align-center
+            .login-container 
+                .doddle
+                    img(src="/image/signup.png", alt="")
+                form.account-form#forgot 
+                    .login-logo
+                        img.logo-img(src="/./image/logo.png" alt="") 
+                    h3.form-heading forgot
+                    .input-box
+                        .input-name
+                            label(for="email") email
+                            <svg class="input-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16">
+                            <path fill="#ffffff" d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+                            </svg>
+                        input#forgot-email(type="text" name="email")
+                    button.btn(type="submit") forgot
+                    .other 
+                        p
+                        | I already have an account. 
+                        a.signup-link(href="/login") login 
 
-        .forgot-page 
-            .logo.forgot-head roop residency
-                span the luxury hotel
-            .forgot-form#forgot-form 
-                h2 forgot 
-                form#forgot(action="/forgot" method="post" contentType= "multipart/form-data")
-                    .input-box 
-                        label(for="email")  email
-                        span.material-symbols-outlined.icon mail  
-                        input#forgotEmail(type="text", name="forgot-email")         
-                    button.btn(type="submit") getting   
-                    .forgot-other
-                        p I have an account?
-                        a(href="/login") login
-            
-        script(src="/./js/frontend.js") 
-        script(src="/./main.js")
+        script(src="/./main.js") 
+        script(src="/./js/index.js")         

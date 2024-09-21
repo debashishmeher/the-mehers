@@ -1,47 +1,54 @@
-extends base
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Srigandaram jewellers & sons | signup 
+        link(rel="stylesheet", href="/./css/common.css")
+        link(rel="stylesheet", href="/./css/login.css")
+        link(rel="stylesheet", href="/./css/responsive.css")
+    body 
+        .align-center
+            .login-container 
+                form.account-form#signup
+                    .login-logo
+                        img.logo-img(src="/./image/logo.png" alt="") 
+                    h3.form-heading signup 
+                    .input-box
+                        .input-name
+                            label(for="name") name
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ffffff"  viewBox="0 0 16 16">
+                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                            </svg>
+                        input#signup-name(type="text" name="name")
+                    .input-box
+                        .input-name
+                            label(for="email") email
+                            <svg class="input-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16">
+                            <path fill="#ffffff" d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+                            </svg>
+                        input#signup-email(type="text" name="email")
+                    .input-box
+                        .input-name
+                            label(for="password") password
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"s class="input-icons" viewBox="0 0 16 16">
+                            <path fill="#ffffff" d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1"/>
+                            </svg>
+                        input#signup-password(type="password" name="password")
+                    .input-box
+                        .input-name
+                            label(for="confirmPassword") confirm password
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"s class="input-icons" viewBox="0 0 16 16">
+                            <path fill="#ffffff" d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1"/>
+                            </svg>
+                        input#signup-confirmpassword(type="password" name="confirmPassword")
+                    button.btn(type="submit") signup
+                    .other 
+                        p
+                        | I already have an account. 
+                        a.signup-link(href="/login") login 
+                .doddle
+                    img(src="/image/signup.png", alt="")
 
-block content 
-    .login-container
-      .login-img  
-      .login-form#signup-form 
-        h2 signup 
-        form.form#login(action="/login")
-          .input-box 
-            label(for="email")  email
-            span.material-symbols-outlined.icon mail  
-            input#login-email(type="text", name="login-email")     
-          .input-box 
-            label(for="password")  password 
-            span.material-symbols-outlined.icon lock  
-            input#login-password(type="password", name="login-password")     
-          button.btn(type="submit") login 
-          .login-other
-            p Dot't have an account?
-              span#signup_slider_btn Sign up
-            p Forgot 
-              a(href="/forgot") Username/Password?
-      .login-form#signup-form
-        h2 sign up
-        form(action="/signup" id="signup")
-          .input-box 
-            label(for="name")  name 
-            span.material-symbols-outlined.icon signature   
-            input#signup-name(type="text", name="name")     
-          .input-box 
-            label(for="email")  email
-            span.material-symbols-outlined.icon mail  
-            input#signup-email(type="text", name="email")     
-          .input-box 
-            label(for="password")  password 
-            span.material-symbols-outlined.icon lock  
-            input#signup-password(type="password", name="password")     
-          .input-box 
-            label(for="password") confirm password 
-            span.material-symbols-outlined.icon lock  
-            input#signup-confirmPassword(type="password", name="confirmPassword")     
-          button.btn(type="submit") signup  
-          .login-other
-            p Dot't have an account?
-              span#login_slider_btn Login
-            p Forgot 
-              a(href="/forgot") Username/Password?
+        script(src="/./main.js") 
+        script(src="/./js/index.js")         

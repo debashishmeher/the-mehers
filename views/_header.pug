@@ -1,38 +1,31 @@
-header.header 
-    .logo hotel moon
-        span the luxury hotel 
-    nav.navbar-container 
-        ul.navbar 
-            li: a(href="/" onclick="togglefun()") HOME
-            li: a(href="/about" onclick="togglefun()") ABOUT
-            li: a(href="/rooms" onclick="togglefun()") ROOMS & SUITES
-            li: a(href="/restaurant" onclick="togglefun()") RESTAURANT
-            li: a(href="/#service" onclick="togglefun()") SERVICE 
-            li: a(href="/events" onclick="togglefun()") EVENTS
-            li: a(href="/#contact" onclick="togglefun()") CONTACT 
-            if user
-                if (user.role=="user")
-                    li: a(href="/me" onclick="togglefun()")=user.name
-                else if (user.role=="admin")
-                    li: a(href="/admin" onclick="togglefun()")=user.name
-            else 
-                li.login: a(href="/login" onclick="togglefun()") LOGIN 
-        .nav-social 
-            .logo hotel moon
-                br
-                span the luxury hotel
-            .socials 
-                a(href="https://www.facebook.com/profile.php?id=61556794866402",target="_blank")
-                    img(src="/./image/facebook-icon.svg", alt="alt")
-                a(href="https://www.instagram.com/chandra_academy__?igsh=MTd3czd2d2Fyb3F1eA==",target="_blank")
-                    img(src="/./image/insta-icon.svg", alt="alt")
-                a(href="/")
-                    img(src="/./image/whatsapp-icon.svg", alt="alt")
-                a(href="https://www.youtube.com/@ChandraAcademy.", target="_blank")
-                    img(src="/./image/youtube-icon.svg", alt="alt")
-    .toggle#toggle(onclick="togglefun()")
-        span.first
-        span.second
-        span.third
-    
-
+header.mainheader 
+    .header1 
+        .toggle(onclick="toggleFun()")
+            <?xml version="1.0" encoding="UTF-8"?>
+            <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="30" height="30"><rect y="11" width="24" height="2" rx="1"/><rect y="4" width="24" height="2" rx="1"/><rect y="18" width="24" height="2" rx="1"/></svg>
+        .logo the mehers 
+        form.search-box(action="/") 
+            input#search(type="text" name="search" placeholder="what are you looking for?")
+            button.btn.search-btn(type="submit")
+                <?xml version="1.0" encoding="UTF-8"?>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><g id="_01_align_center" data-name="01 align center"><path d="M24,22.586l-6.262-6.262a10.016,10.016,0,1,0-1.414,1.414L22.586,24ZM10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18Z"/></g></svg>
+        .accounts.align-center
+            .user 
+                <?xml version="1.0" encoding="UTF-8"?>
+                <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="24" height="24"><path d="M12,12A6,6,0,1,0,6,6,6.006,6.006,0,0,0,12,12ZM12,2A4,4,0,1,1,8,6,4,4,0,0,1,12,2Z"/><path d="M12,14a9.01,9.01,0,0,0-9,9,1,1,0,0,0,2,0,7,7,0,0,1,14,0,1,1,0,0,0,2,0A9.01,9.01,0,0,0,12,14Z"/></svg>
+            a(href=`/${user ? 'cart' : 'login'}`).cart
+                .cart-count.align-center 
+                    span 3
+                <?xml version="1.0" encoding="UTF-8"?>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><g id="_01_align_center" data-name="01 align center"><path d="M24,3H4.242L4.2,2.649A3,3,0,0,0,1.222,0H0V2H1.222a1,1,0,0,1,.993.883L3.8,16.351A3,3,0,0,0,6.778,19H20V17H6.778a1,1,0,0,1-.993-.884L5.654,15H21.836ZM20.164,13H5.419L4.478,5H21.607Z"/><circle cx="7" cy="22" r="2"/><circle cx="17" cy="22" r="2"/></g></svg>
+    .navbar 
+        img.cross(src="/./image/cross.svg", alt="" onclick="toggleFun()")
+        ul 
+            li: a(href="/" onclick="toggleFun()") home
+            li: a(href="/shop" onclick="toggleFun()") shop
+            li: a(href="#" onclick="toggleFun()") best seller
+            li: a(href="#" onclick="toggleFun()") new arrivals
+            li: a(href="#" onclick="toggleFun()") accessories
+            li: a(href="/blogs" onclick="toggleFun()") blog
+            li: a(href="#" onclick="toggleFun()") about us
+            li: a(href="#" onclick="toggleFun()") contact us

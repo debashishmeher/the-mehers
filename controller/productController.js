@@ -3,6 +3,7 @@ const catchAsync = require("../utility/catchAsync")
 const multer=require("multer")
 const sharp=require("sharp")
 const Review=require("../database/reviewModel")
+const Cart=require("../database/cartModel")
 
 // multer configuration------------------------------
 
@@ -40,6 +41,19 @@ exports.processimg=catchAsync(async(req,res,next)=>{
     next()
   })
   
+
+exports.processimgmainphoto=catchAsync(async(req,res,next)=>{
+  console.log("processing main image");
+  console.log(req.file);
+  req.body.mainphoto=`main-${Date.now()}.jpeg`
+  console.log(req.body.mainphoto);
+  await sharp(req.file.buffer)
+  .resize(500,625)
+  .toFormat("jpeg")
+  .jpeg({quality:90}).toFile(`./public/image/product/${req.body.mainphoto}`)
+  console.log("process finish");
+  next()
+})
 
 
 // create product------------------------------------------------------------------
@@ -88,6 +102,8 @@ exports.updateproduct=catchAsync(async(req,res,next)=>{
 exports.deleteproduct=catchAsync(async(req,res,next)=>{
     const productId=req.params.productId
     await Product.findByIdAndDelete(productId)
+    await Cart.deleteMany({product:productId})
+
     res.status(200).json({
         status:"success",
         message:'Product has been deleted'

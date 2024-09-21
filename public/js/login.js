@@ -48,7 +48,7 @@ exports.login = async (email, password) => {
     console.log(err.response);
   }
 };
-exports.signup = async (name, email, password, confirmPassword) => {
+exports.signup = async (name, email, password, confirmpassword) => {
   try {
     const res = await axios({
       method: "POST",
@@ -57,7 +57,7 @@ exports.signup = async (name, email, password, confirmPassword) => {
         name,
         email,
         password,
-        confirmPassword,
+        confirmpassword,
       },
     });
     if (res.data.status === "success") {
@@ -130,6 +130,32 @@ exports.getEmail = async (email) => {
     if (response.data.status === "success") {
       showAlert("success", "email send successful");
     }
+  } catch (err) {
+    showAlert("err", err.response.data.message);
+    console.log(err.response);
+  }
+};
+
+exports.updateUser = async (formdata) => {
+  try {
+    const res = await axios({
+      method: "PATCH",
+      url: "http://localhost:8000/user",
+      data: formdata,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      }
+    });
+    console.log(res.data);
+
+    if (res.data.status === "success") {
+      showAlert("success", res.data.message);
+      window.setTimeout(() => {
+        location.assign("/me");
+      }, 500);
+    }
+
+    console.log("called");
   } catch (err) {
     showAlert("err", err.response.data.message);
     console.log(err.response);

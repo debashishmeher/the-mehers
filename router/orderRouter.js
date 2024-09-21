@@ -8,7 +8,7 @@ Router.route("/")
   .get(authController.protect,authController.accessTo("admin"),orderController.allOrders);
 
 
-Router.route("/order").post(authController.protect,orderController.createOrder)
+Router.route("/order").post(authController.protect,orderController.paymentVerification,orderController.createOrder)
 Router.route("/checkout")
   .get(authController.protect,orderController.checkout)
 

@@ -1,39 +1,65 @@
-import { forgot, login, signup, resetpassword, getEmail } from "./login.js";
-import {scheduleenquary} from "./admin.js"
+import {
+  forgot,
+  login,
+  signup,
+  resetpassword,
+  getEmail,
+  updateUser,
+} from "./login.js";
+import { scheduleenquary, createProduct,createBlogs } from "./admin.js";
+import { addtocart,updateCartItem,deleteToCart,address,buying } from "./product.js";
 const loginbtn = document.getElementById("login");
 const signupbtn = document.getElementById("signup");
 const forgotbtn = document.getElementById("forgot");
 const resetPassBtn = document.getElementById("passwordReset");
 const getUpdateBtn = document.getElementById("getUpdate");
+const userDatabtn = document.getElementById("user-data");
 
 // admin action ------------------------------
-const scheduleForm=document.getElementById("scheduleForm")
+const scheduleForm = document.getElementById("scheduleForm");
+const productCreate = document.getElementById("create-product");
+const blogCreate = document.getElementById("create-blogs");
 
+// general action-------------------------------
+const addtocartBtn=document.getElementById("addtocart")
+const addressBtn=document.getElementById("user-address")
+const cartquantity=document.querySelectorAll(".cartquantity")
+const deleteitem =document.querySelectorAll(".delete-product")
+const checkoutBtn=document.getElementById("order-details")
 
 
 function getFilledData(formId) {
-  const form=document.getElementById(formId)
-  let filledData={};
+  const form = document.getElementById(formId);
+  let filledData = {};
 
-  for(let i=0; i < form.elements.length; i++){
-    let elements=form.elements[i];
+  for (let i = 0; i < form.elements.length; i++) {
+    let elements = form.elements[i];
     let name;
     let value;
-    if(elements.type === "file"){
-      name=elements.name;
-      value=elements.files[0]
-    }
-    else if(elements.type === "radio") {
-      const selectedRadio = document.querySelector(`input[name="${elements.name}"]:checked`);
-      name=elements.name
-      value=selectedRadio.value
-    }
-    else{
-      name=elements.name;
-      value=elements.value;
+    console.log(elements.type);
+
+    if (elements.type === "file") {
+      name = elements.name;
+      value = elements.files[0];
+    } else if (elements.type === "radio") {
+      const selectedRadio = document.querySelector(
+        `input[name="${elements.name}"]:checked`
+      );
+      name = elements.name;
+      value = selectedRadio.value;
+    } else if (elements.type === "select-one") {
+      const selectElement = document.querySelector(
+        `select[name="${elements.name}"]`
+      );
+
+      name = elements.name;
+      value = selectElement.value;
+    } else {
+      name = elements.name;
+      value = elements.value;
     }
 
-    if(name && value){
+    if (name && value) {
       filledData[name] = value;
     }
   }
@@ -55,10 +81,10 @@ if (signupbtn) {
     const name = document.getElementById("signup-name").value;
     const email = document.getElementById("signup-email").value;
     const password = document.getElementById("signup-password").value;
-    const confirmPassword = document.getElementById(
-      "signup-confirmPassword"
+    const confirmpassword = document.getElementById(
+      "signup-confirmpassword"
     ).value;
-    signup(name, email, password, confirmPassword);
+    signup(name, email, password, confirmpassword);
   });
 }
 
@@ -84,13 +110,114 @@ if (getUpdateBtn) {
   });
 }
 
+if (userDatabtn) {
+  userDatabtn.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let formData = getFilledData("user-data");
+    updateUser(formData);
+  });
+}
 
 // admin actions----------------------------
 if (scheduleForm) {
   scheduleForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    const enquaryid=scheduleForm.dataset.enquaryId
-    const formdata=getFilledData("scheduleForm")
-    scheduleenquary(enquaryid,formdata)
+    const enquaryid = scheduleForm.dataset.enquaryId;
+    const formdata = getFilledData("scheduleForm");
+    scheduleenquary(enquaryid, formdata);
+  });
+}
+if (productCreate) {
+  productCreate.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const formdata = getFilledData("create-product");
+    createProduct(formdata);
+  });
+}
+if (blogCreate) {
+  blogCreate.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const formdata = getFilledData("create-blogs");
+    createBlogs(formdata);
+  });
+}
+
+// general action-----------------------
+if (addtocartBtn) {
+  addtocartBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    const productid=addtocartBtn.dataset.productid
+    const quantity=document.getElementById("product-quantity").value
+    addtocart(productid,quantity);
+  });
+}
+
+if(cartquantity){
+  
+  const incqun =document.querySelectorAll(".incqun")
+    for (let i = 0; i < incqun.length; i++) {
+      const el = incqun[i];
+        el.addEventListener("click",(e)=>{
+          e.preventDefault();
+        const itemid=el.dataset.itemid;
+        let formdata={}
+        formdata.quantity=cartquantity[i].value*1 + 1
+          console.log(itemid,formdata);
+        updateCartItem(itemid,formdata)
+      })
+    }
+  const decqun =document.querySelectorAll(".decqun")
+    for (let i = 0; i < decqun.length; i++) {
+      const el = decqun[i];
+        el.addEventListener("click",(e)=>{
+          e.preventDefault();
+        const itemid=el.dataset.itemid;
+        let formdata={}
+        formdata.quantity=cartquantity[i].value*1 - 1
+          console.log(itemid,formdata);
+        updateCartItem(itemid,formdata)
+      })
+    }
+  for (let i = 0; i < cartquantity.length; i++) {
+    const el = cartquantity[i];
+      el.addEventListener("change",(e)=>{
+        e.preventDefault();
+      const itemid=el.dataset.itemid;
+      let formdata={}
+      formdata.quantity=el.value
+        console.log(itemid,formdata);
+      updateCartItem(itemid,formdata)
+    })
+  }
+}
+
+if(deleteitem){
+  for (let i = 0; i < deleteitem.length; i++) {
+    const el = deleteitem[i];
+      el.addEventListener("click",(e)=>{
+        e.preventDefault();
+      const cartitem=el.dataset.cartitem;
+
+      deleteToCart(cartitem)
+    })
+  }
+}
+
+
+// checkout----------------------------
+if (addressBtn) {
+  addressBtn.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let formData=getFilledData("user-address")
+    address(formData)
+  });
+}
+
+if(checkoutBtn){
+  checkoutBtn.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let formData=getFilledData("order-details")
+      buying(formData)
+    console.log("payment initiate");
   });
 }

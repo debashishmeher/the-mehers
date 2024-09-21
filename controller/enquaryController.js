@@ -1,4 +1,5 @@
-const Enquary=require("../database/enquaryModel")
+const Enquary=require("../database/enquaryModel");
+const Schedule = require("../database/sechduleModel");
 const catchAsync = require("../utility/catchAsync");
 
 // create enquary----------------------------
@@ -15,7 +16,10 @@ exports.createEnquary=catchAsync(async(req,res,next)=>{
 
 exports.getOneEnquary=catchAsync(async(req,res,next)=>{
     const enquary=await Enquary.findById(req.params.enquaryId)
-    res.status(201).render("enquarymng",{enquary})
+    const schedules=await Schedule.find({enquary:req.params.enquaryId})
+    console.log(schedules);
+    
+    res.status(201).render("enquarymng",{enquary,schedules})
   })
 // update one enquary
 exports.deleteEnquary=catchAsync(async(req,res,next)=>{

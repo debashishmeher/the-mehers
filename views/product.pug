@@ -1,0 +1,57 @@
+extend base 
+
+block content
+   .page-head.align-center.shop-page 
+      .page-head-item
+         h1.page-heading shop
+         a(href="/").page-link home | 
+         a(href="#").page-link shop 
+   .shop-container 
+      .align-center
+         .shop-cat 
+            .shop-cat-box 
+               .cat-img
+                  img(src="/./image/catagory/cat1.png" alt="")
+               .cat-name cat-1
+            .shop-cat-box 
+               .cat-img
+                  img(src="/./image/catagory/cat1.png" alt="")
+               .cat-name cat-1
+            .shop-cat-box 
+               .cat-img
+                  img(src="/./image/catagory/cat1.png" alt="")
+               .cat-name cat-1
+            .shop-cat-box 
+               .cat-img
+                  img(src="/./image/catagory/cat1.png" alt="")
+               .cat-name cat-1
+            .shop-cat-box 
+               .cat-img
+                  img(src="/./image/catagory/cat1.png" alt="")
+               .cat-name cat-1
+            .shop-cat-box 
+               .cat-img
+                  img(src="/./image/catagory/cat1.png" alt="")
+               .cat-name cat-1
+            .shop-cat-box 
+               .cat-img
+                  img(src="/./image/catagory/cat1.png" alt="")
+               .cat-name cat-1
+            .shop-cat-box 
+               .cat-img
+                  img(src="/./image/catagory/cat1.png" alt="")
+               .cat-name cat-1
+            .shop-cat-box 
+               .cat-img
+                  img(src="/./image/catagory/cat1.png" alt="")
+               .cat-name cat-1
+      .products-container 
+         each product of products 
+            a(href=`/product/${product.id}`).product-card 
+               img.product-img(src=`/./image/product/${product.mainphoto}`, alt="")
+               .product-info 
+                  p.offer=`${product.discount}% off`
+                  h2.product-name=product.name 
+                  p.product-price=`₹${product.price}.00`
+                  p.product-discounted=`₹${product.price - (product.price * product.discount / 100)}.00`
+               //- button.btn.add-cart-btn(data-product-id=`${product.id}`) cart

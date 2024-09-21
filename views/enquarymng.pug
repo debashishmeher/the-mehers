@@ -10,16 +10,17 @@ block admincontent
                 p.date=enquary.createdAt.toLocaleDateString()
                 p.enq-type=enquary.type
             .enq-action 
-                button.admin-btn schedule
+                a(href=`/enquary/${enquary.id}/schedule`).admin-btn schedule
                 button.admin-btn update
                 button.admin-btn delete
         .schedule-box 
             .schedule-head.align-center 
                 p Schedule
             ul.schedule-list 
-                li 
-                    p.sl-no 1
-                    p.sl-no 42-05-2023
-                    p.sl-no call
-                    p.sl-no Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo eum molestiae eveniet recusandae reiciendis laborum, adipisci, aliquid accusantium, odit culpa beatae veniam provident necessitatibus consequatur dolorem deleniti earum fugit eius!
-                    p.sl-no D   U
+                each schedule , index in schedules
+                    li 
+                        p.sl-no=`${index + 1}`
+                        p.sl-no=schedule.scheduleDate.toLocaleDateString()
+                        p.sl-no=schedule.method
+                        p.sl-no=schedule.message
+                        p.sl-no D   U

@@ -49,6 +49,9 @@
     .navslide {
         left: 0;
     }
+    .home-product-container::-webkit-scrollbar,.shop-cat::-webkit-scrollbar{
+        display: none;
+    }
 }
 
 @media only screen and (max-width: 768px) {

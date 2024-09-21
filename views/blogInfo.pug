@@ -1,0 +1,11 @@
+extend base 
+
+block content 
+    .blog-info-container 
+        .blog-main 
+            h1.blog-heading=blog.title 
+            p.blog-desc=blog.desc 
+            p.blog-date=blog.createdAt.toLocaleString()
+            img.blog-img(src=`/./image/blogs/${blog.image}`, alt="")
+            p.blog-para=blog.blog 
+        .blog-side

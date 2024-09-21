@@ -1,0 +1,118 @@
+
+.me-page {
+    padding: 3rem 5%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+    /* position: relative; */
+  }
+  .me-left {
+    flex: 1 1 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .user-box {
+    max-width: 300px;
+    position: sticky;
+    top: calc(10% + 3rem);
+    background-color: rgb(36, 36, 36);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border: 2px solid white;
+    padding: 2rem;
+    border-radius: 10px;
+  }
+  .user-photo {
+    width: 200px;
+    border-radius: 50%;
+    img {
+      width: 100%;
+      border-radius: 50%;
+    }
+  }
+  
+  .user-edit {
+    padding: 10px 20px;
+    color: white;
+    background-color: transparent;
+    width: 100%;
+    border: 2px solid white;
+    /* text-transform: uppercase; */
+    font-size: 1rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+  }
+  .editactive {
+    display: none;
+    opacity: 0;
+  }
+  .form-body {
+    width: 100%;
+    min-height: 100vh;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.561);
+    backdrop-filter: blur(15px);
+    top: 0;
+    left: 0;
+    z-index: 999999;
+    transition: 0.4s;
+  }
+  #user-data,
+  #user-address {
+    background-color: #eb4034;
+    display: flex;
+    flex-direction: column;
+    svg {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      cursor: pointer;
+    }
+  }
+  #user-photo {
+    border: 2px solid white;
+  }
+  
+  .me-right {
+    flex: 3 1 500px;
+    background-color: aquamarine;
+    height: 200vh;
+  }
+  .status {
+    color: rgb(0, 174, 0);
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    font-weight: 900;
+    text-align: center;
+  }
+  .order-food {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, max-content));
+    gap: 1rem;
+  }
+  .name {
+    color: white;
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+    font-weight: 900;
+    text-transform: capitalize;
+    text-align: center;
+  }
+  .email{
+    color: white;
+  }
+  .order{
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .continue{
+    padding: 3rem;
+    border: 2px solid white;
+    text-transform: capitalize;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }

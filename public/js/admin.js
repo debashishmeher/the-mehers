@@ -16,12 +16,12 @@ const showAlert = (status, message) => {
 };
 
 exports.scheduleenquary = async (enquaryid,formdata) => {
-    console.log(enquaryid,formdata);
+
     
     try {
       const res = await axios({
         method: "POST",
-        url: `http://localhost:8000/admin/${enquaryid}/schedule`,
+        url: `http://localhost:8000/enquary/${enquaryid}/schedule`,
         data: formdata,
         httpOnly: true,
       });
@@ -29,7 +29,59 @@ exports.scheduleenquary = async (enquaryid,formdata) => {
       if (res.data.status === "success") {
         showAlert("success", res.data.message);
         window.setTimeout(() => {
-          location.assign(`/admin/${enquaryid}`);
+          location.assign(`/enquary/${enquaryid}`);
+        }, 1000);
+      }
+    } catch (err) {
+      showAlert("err", err.response.data.message);
+      console.log(err.response);
+    }
+  };
+
+  // create product
+exports.createProduct = async (formdata) => {
+    
+    try {
+      const res = await axios({
+        method: "POST",
+        url: `http://localhost:8000/product`,
+        data: formdata,
+        httpOnly: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        }
+      });
+  
+      if (res.data.status === "success") {
+        showAlert("success", res.data.message);
+        window.setTimeout(() => {
+          location.assign(`/admin/products`);
+        }, 1000);
+      }
+    } catch (err) {
+      showAlert("err", err.response.data.message);
+      console.log(err.response);
+    }
+  };
+
+  // create blogs------------------------------------
+exports.createBlogs = async (formdata) => {
+    
+    try {
+      const res = await axios({
+        method: "POST",
+        url: `http://localhost:8000/blogs`,
+        data: formdata,
+        httpOnly: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        }
+      });
+  
+      if (res.data.status === "success") {
+        showAlert("success", res.data.message);
+        window.setTimeout(() => {
+          location.assign(`/admin/blogs`);
         }, 1000);
       }
     } catch (err) {

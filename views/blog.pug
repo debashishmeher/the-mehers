@@ -1,0 +1,15 @@
+extend base 
+
+block content 
+    .page-head.align-center.shop-page 
+        .page-head-item
+            h1.page-heading blog
+            a(href="/").page-link home | 
+            a(href="#").page-link blogs
+    .blog-container 
+        each blog, index in blogs
+            a(href=`/blogs/${blog.id}`).blog-card 
+                img.blog-img(src=`/./image/blogs/${blog.image}`, alt="")
+                .blog-info 
+                    h2.blod-title=`${index+1}. ${blog.title}`
+                    p.date=blog.createdAt.toLocaleString()

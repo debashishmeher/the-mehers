@@ -1,0 +1,56 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title the meher's | create product
+        link(rel="stylesheet" href="/./css/common.css")
+        link(rel="stylesheet" href="/./css/form.css")
+        link(rel="stylesheet" href="/./css/admin.css")
+        link(rel="stylesheet" href="/./css/responsive.css")
+    body 
+        header.header.sub-header.mainheader
+            .left-arrow(onclick="goback()")
+                <svg enable-background="new 0 0 45 34" height="24px" id="Layer_1" version="1.1" viewBox="0 0 45 34" width="45px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon fill="#ffffff" points="19.626,31.705 7.712,20 45,20 45,15 7.712,15 19.626,3.006 16.798,0.273 -0.38,17.499   16.798,34.605 "/></svg>
+            h2 CREATE PRODUCTS
+        .align-center
+            .form-parent
+                .form-left 
+                    form#create-blogs
+                        h2.form-heading create blogs
+                        table.form-table 
+                            tr 
+                                td.table-head photo :-
+                                td 
+                                    input#image(type="file" name="image")
+                            tr 
+                                td.table-head title :-
+                                td 
+                                    input(type="text" name="title")
+                            tr 
+                                td.table-head blog :-
+                                td 
+                                    textarea(type="text" name="blog" rows="5" )
+                            tr 
+                                td.table-head description :-
+                                td 
+                                    textarea(type="text" name="desc" rows="5" )
+                        .form-action 
+                            button(type="submit").admin-btn create
+                            button(type="reset").admin-btn clear 
+                            div#preview.admin-btn(onclick="blogsPreview()") preview
+                .form-right
+                    h2.form-heading blog preview
+                    .preview-container 
+                        img#preview-img(src="#", alt="")
+                        .preview-info 
+                            .preview-box
+                                p#preview-title -- -- --
+                            .preview-box
+                                p#preview-desc -- -- --
+                            .preview-box
+                                p#preview-blog -- -- --
+                           
+
+        script(src="/./main.js") 
+        script(src="/./js/frontend.js")         

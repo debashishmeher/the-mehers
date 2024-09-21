@@ -13,7 +13,7 @@ const signtoken = (id) => {
 
 const createTokenAndSend = (user, statuscode, res) => {
   const token = signtoken(user._id);
-  res.cookie("authToken",token,{expires: new Date(Date.now() + 5259600000), httpOnly: true })
+  res.cookie("token",token,{expires: new Date(Date.now() + 5259600000), httpOnly: true })
   console.log(user);
   
   res.status(statuscode).json({
@@ -54,8 +54,8 @@ exports.login = catchAsync(async (req, res, next) => {
 exports.isLogin = async (req, res, next) => {
   
   try {
-    if (req.cookies.authToken) {
-      const token = req.cookies.authToken;
+    if (req.cookies.token) {
+      const token = req.cookies.token;
       const decode = await promisify(jwt.verify)(
         token,
         process.env.JWT_SECRET_KEY
@@ -77,15 +77,16 @@ exports.isLogin = async (req, res, next) => {
 };
 
 exports.protect = async (req, res, next) => {
+  
   let token;
-  if(req.cookies.authToken){
-    token=req.cookies.authToken
+  if(req.cookies.token){
+    token=req.cookies.token
   }
 
   if (!token) {
     return next(new AppError("you are not login plaease log in", 404));
   }
-
+  
   const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET_KEY);
   const currentUser = await User.findOne({ _id: decode.id });
 

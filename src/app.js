@@ -14,6 +14,7 @@ const cookieParser = require("cookie-parser");
 const webPush = require("web-push");
 const bodyParser = require("body-parser");
 const pug = require("pug");
+const cors=require("cors")
 
 // middleware
 const userRouter = require("../router/userRouter.js");
@@ -21,12 +22,14 @@ const viewRouter = require("../router/viewRouter.js");
 const adminRouter = require("../router/adminRouter.js");
 const productRouter = require("../router/productRouter.js");
 const orderrderRouter = require("../router/orderRouter.js");
+const blogRouter=require("../router/blogRouter.js")
 const cartRouter = require("../router/cartRouter.js");
 const enquaryRouter=require("../router/enquaryRouter.js")
 const Notification=require("../database/notificationModel.js");
 const catchAsync = require("../utility/catchAsync.js");
 
-app.use(bodyParser.json());
+// app.use(cors());
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
@@ -36,13 +39,13 @@ app.set("views", path.join(__dirname, "../views"));
 
 // render static file
 app.use("/", viewRouter);
-const staticpath = path.join(__dirname, "../public");
-app.use(express.static(staticpath));
+app.use(express.static(path.join(__dirname, "../public")));
 
 // router
 app.use("/", userRouter);
 app.use("/admin", adminRouter);
 app.use("/product", productRouter);
+app.use("/blogs", blogRouter);
 app.use("/order", orderrderRouter);
 app.use("/cart", cartRouter);
 app.use("/enquary", enquaryRouter);

@@ -8,14 +8,13 @@ Router.route("/")
   .post(
     authController.protect,
     authController.accessTo("admin"),
-    productController.productPhoto,
-    productController.processimg,
+    productController.mainphoto,
+    productController.processimgmainphoto,
     productController.createproduct
   )
   .get(productController.getAllproduct);
 
 Router.route("/:productId")
-  .get(productController.getOneproduct)
   .patch(
     authController.protect,
     authController.accessTo("admin"),

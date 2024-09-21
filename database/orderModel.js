@@ -34,12 +34,12 @@ const OrderSchema = new mongoose.Schema({
   },
   payType: {
     type: String,
-    enum: ["cod", "online"],
-    default: "cod",
+    enum: ["offline", "online"],
+    default: "offline",
   },
   phone: {
     type: Number,
-    required: [true, "phone no must be required"],
+    // required: [true, "phone no must be required"],
     validate: {
       validator: function (val) {
         return val.toString().length === 10;

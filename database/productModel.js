@@ -15,6 +15,10 @@ const productSchma=new mongoose.Schema({
         type:Number,
         required:[true,"item price must be required"]
     },
+    purchase:{
+        type:Number,
+        required:[true,"item purchase must be required"]
+    },
     discount:{
         type:Number,
         min:0,

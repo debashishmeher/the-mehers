@@ -44,6 +44,7 @@
 .admin-main {
     /* background-color: rgb(18, 117, 204); */
     width: 100%;
+    min-height: 90vh;
     margin: 10px;
     border-radius: 10px;
 }
@@ -58,28 +59,13 @@
     color: white;
     box-shadow: 0 0 5px rgba(54, 54, 54, 0.555);
     cursor: pointer;
+    text-align: center;
 }
 .product-table {
     margin: 10px;
     border-radius: 10px;
     overflow-x: auto;
 }
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-    padding: 1rem;
-  }
-  
-  td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-  }
-  
-  tr:nth-child(even) {
-    background-color: rgb(201, 201, 201);
-  }
 
 
 /* admin product page----------------- */
@@ -245,4 +231,34 @@ table {
     margin-top: 10px;
     color: rgb(230, 229, 229);
     font-weight: 600;
+}
+
+
+/* admin blogs----------------------- */
+.admin-blog-container{
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(150px,1fr));
+    gap: 1rem;
+}
+
+.index{
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+.title{
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+.date{
+    font-size: 0.8rem;
+    color: rgb(54, 54, 54);
+}
+.blog-image{
+    width: 100%;
+    img{
+        width: 100%;
+        border-radius: 10px;
+    }
 }

@@ -5,19 +5,16 @@ function toggleFun() {
 }
 
 const sideSpan = document.querySelectorAll(".side-name");
-console.log(sideSpan);
+
 
 function sideToggle() {
   sideSpan.forEach((el) => {
     el.classList.toggle("side-active");
   });
-  console.log("called");
+
 }
 
-// testing
-function testing(x) {
-  return console.log(`clicked div no ${x}`);
-}
+
 const hero = document.querySelector(".hero");
 if (hero) {
   let heroheight = hero.offsetWidth * 0.5;
@@ -42,6 +39,55 @@ if (box) {
   }
   xyz(i);
 }
+
+
+// photo upload preview
+
+function changeuserphoto() {
+  const Photo = document.querySelector("#user-photo");
+  const PhotoPreview = document.querySelector(".user-data-photo");
+  const [file] = Photo.files;
+  if (file) {
+    PhotoPreview.src = URL.createObjectURL(file);
+  }
+}
+
+
+function productPreview(){
+  const Photo = document.getElementById("mainphoto");
+  const PhotoPreview = document.querySelector("#preview-img");
+  const [file] = Photo.files;
+  if (file) {
+    PhotoPreview.src = URL.createObjectURL(file);
+  }
+  document.getElementById("preview-name").innerHTML= document.getElementsByName("name")[0].value
+  document.getElementById("preview-purchase").innerHTML= document.getElementsByName("purchase")[0].value
+  document.getElementById("preview-price").innerHTML= document.getElementsByName("price")[0].value
+  document.getElementById("preview-discount").innerHTML= document.getElementsByName("discount")[0].value
+  document.getElementById("preview-catagory").innerHTML= document.getElementsByName("catagory")[0].value
+  document.getElementById("preview-code").innerHTML= document.getElementsByName("code")[0].value
+  document.getElementById("preview-weight").innerHTML= document.getElementsByName("weight")[0].value
+  document.getElementById("preview-quantity").innerHTML= document.getElementsByName("quantity")[0].value
+  document.getElementById("preview-desc").innerHTML= document.getElementsByName("desc")[0].value
+}
+
+function blogsPreview(){
+  const Photo = document.getElementById("image");
+  const PhotoPreview = document.querySelector("#preview-img");
+  const [file] = Photo.files;
+  if (file) {
+    PhotoPreview.src = URL.createObjectURL(file);
+  }
+  document.getElementById("preview-title").innerHTML= document.getElementsByName("title")[0].value
+  document.getElementById("preview-blog").innerHTML= document.getElementsByName("blog")[0].value
+  document.getElementById("preview-desc").innerHTML= document.getElementsByName("desc")[0].value
+}
+
+function showUserEdit(){
+  const formbody=document.querySelector(".form-body");
+   formbody.classList.toggle("editactive");
+ };
+
 
 // scrolling
 const head = document.querySelector(".mainheader");

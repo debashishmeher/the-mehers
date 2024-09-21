@@ -1,0 +1,22 @@
+extend admin 
+
+block admincontent
+    .enquary-container 
+        form#enquary-search.search-item 
+            .input-box 
+                label(for="name") name :- 
+                input(type="text", name="name") 
+            .input-box 
+                label(for="code") number :- 
+                input(type="number", name="code") 
+            button.admin-btn(type="submit") search
+    a(href="/admin/blogs/create").admin-btn create blogs
+    section.admin-blog-container 
+        each blog, index in blogs
+            a(href=`/admin/blogs/${blog.id}`).admin-blog-box
+                .blog-image 
+                    img(src=`/./image/blogs/${blog.image}`, alt="")
+                .blog-title 
+                    span.index=`${index + 1}. ` 
+                    span.title=blog.title
+                    p.date=blog.createdAt.toLocaleString()

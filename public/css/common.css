@@ -7,9 +7,9 @@
     scroll-behavior: smooth;
 }
 ::-webkit-scrollbar {
-  width: 10px;
-  background-color: rgb(67, 67, 67);
-  height: 8px;
+  width: 5px;
+  background-color: transparent;
+  height: 5px;
 
 }
 
@@ -17,10 +17,10 @@
   cursor: pointer;
   background: var(--theme-color);
   border-radius: 1rem;
-  border: 3px solid rgb(67, 67, 67);
+  /* border: 2px solid rgb(67, 67, 67); */
 }
 :root {
-    --theme-color: rgb(220, 162, 63);
+    --theme-color: rgb(220, 63, 63);
     --font-family: "Lato", sans-serif;
 }
 
@@ -40,22 +40,59 @@ body {
   text-transform: uppercase;
   color: white;
 }
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  padding: 1rem;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: rgb(201, 201, 201);
+}
 
 .align-center {
     display: flex;
     justify-content: center;
     align-items: center;
 }
+.sub-heading{
+  font-size: 2rem;
+  margin: 10px 10%;
+}
 
 .mainheader {
   position: relative;
   width: 100%;
 }
-
+.main-heading{
+    padding: 10px 10%;
+    text-transform: capitalize;
+}
 .btn {
+  border: 2px solid white;
+  color: white;
     background-color: var(--theme-color);
     padding: 10px;
     border-radius: 10px;
+    font-weight: 600;
+    font-size: 1.1rem;
+
+}
+.btn2 {
+  border: 2px solid white;
+  color: white;
+    background-color: var(--theme-color);
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1.1rem;
 
 }
 
@@ -64,8 +101,10 @@ ul {
 }
 
 a {
+  margin-top: 10px;
     text-decoration: none;
     color: rgb(38, 38, 38);
+    display: inline-block;
 }
 
 h3 {
@@ -133,4 +172,21 @@ h3 {
   z-index: 999;
   top: 0;
   left: 0;
+}
+.socials{
+  padding: 10px;
+  display: flex;
+  gap: 5px;
+}
+
+.page-head{
+  height: 30vh;
+  background-color: blanchedalmond;
+}
+.page-heading{
+  text-transform: uppercase;
+  font-weight: 800;
+}
+.page-link{
+  font-weight: 600;
 }
