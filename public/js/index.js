@@ -6,7 +6,7 @@ import {
   getEmail,
   updateUser,
 } from "./login.js";
-import { scheduleenquary, createProduct,createBlogs } from "./admin.js";
+import { scheduleenquary, createProduct,createBlogs,createEnquary,offlineSell } from "./admin.js";
 import { addtocart,updateCartItem,deleteToCart,address,buying } from "./product.js";
 const loginbtn = document.getElementById("login");
 const signupbtn = document.getElementById("signup");
@@ -19,6 +19,7 @@ const userDatabtn = document.getElementById("user-data");
 const scheduleForm = document.getElementById("scheduleForm");
 const productCreate = document.getElementById("create-product");
 const blogCreate = document.getElementById("create-blogs");
+const offlineSellForm = document.getElementById("offline-sell");
 
 // general action-------------------------------
 const addtocartBtn=document.getElementById("addtocart")
@@ -26,6 +27,7 @@ const addressBtn=document.getElementById("user-address")
 const cartquantity=document.querySelectorAll(".cartquantity")
 const deleteitem =document.querySelectorAll(".delete-product")
 const checkoutBtn=document.getElementById("order-details")
+const enquaryForm=document.getElementById("enquary")
 
 
 function getFilledData(formId) {
@@ -40,8 +42,21 @@ function getFilledData(formId) {
 
     if (elements.type === "file") {
       name = elements.name;
-      value = elements.files[0];
-    } else if (elements.type === "radio") {
+      if(elements.files.length==1){
+        value = elements.files[0];
+      }
+      if(elements.files.length>1){
+        // value=[]
+        for (let i = 0; i < elements.files.length; i++) {
+          const el = elements.files[i];
+          // name=elements.name
+          // value.push(el)
+          value = el;
+        }
+      }
+    } 
+  
+    else if (elements.type === "radio") {
       const selectedRadio = document.querySelector(
         `input[name="${elements.name}"]:checked`
       );
@@ -63,6 +78,8 @@ function getFilledData(formId) {
       filledData[name] = value;
     }
   }
+  console.log(filledData);
+  
   return filledData;
 }
 
@@ -130,7 +147,8 @@ if (scheduleForm) {
 if (productCreate) {
   productCreate.addEventListener("submit", (e) => {
     e.preventDefault();
-    const formdata = getFilledData("create-product");
+    // const formdata = getFilledData("create-product");
+    const formdata = new FormData(productCreate);
     createProduct(formdata);
   });
 }
@@ -219,5 +237,24 @@ if(checkoutBtn){
     let formData=getFilledData("order-details")
       buying(formData)
     console.log("payment initiate");
+  });
+}
+
+// /enquary post
+if(enquaryForm){
+ enquaryForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let formData=getFilledData("enquary")
+    createEnquary(formData)
+  });
+}
+
+// offline selling
+if(offlineSellForm){
+offlineSellForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let formData=getFilledData("offline-sell")
+    const productid=offlineSellForm.dataset.productid;
+    offlineSell(productid,formData)
   });
 }

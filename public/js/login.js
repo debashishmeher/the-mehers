@@ -1,5 +1,9 @@
 const axios = require("axios");
 
+const publicVapidKey =
+  'BO64nFLjYDrOH1GvwXftIEEroUpihOost6Rcutdw1O-rqTDIFgS2sZwNTApxSAYFZ_JaIeS2Ul75qXhuhhzq3ao';
+
+
 const hideAlert = () => {
   const box = document.querySelector(".alert");
   if (box) {
@@ -20,7 +24,7 @@ exports.login = async (email, password) => {
   try {
     const res = await axios({
       method: "POST",
-      url: "http://localhost:8000/login",
+      url: "https://themehers.in/login",
       data: {
         email,
         password,
@@ -31,15 +35,53 @@ exports.login = async (email, password) => {
 
     if (res.data.status === "success") {
       showAlert("success", "login successful");
-      if(res.data.user.role==="admin"){
-        console.log(res.data.user);
-        window.setTimeout(() => {
-          location.assign("/admin");
-        }, 5000);
+
+      if ("serviceWorker" in navigator) {
+        console.log("service worker");
+        send().catch((err) => {
+          console.log(err);
+        });
       }
-      window.setTimeout(() => {
-        location.assign("/");
-      }, 5000);
+
+      async function send() {
+        console.log("registration of service worker---------");
+        const register = await navigator.serviceWorker.register("/sw.js");
+        console.log("register sw...");
+
+        // register push
+        console.log("registering push...");
+        const subscription = await register.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: publicVapidKey,
+        });
+        console.log(subscription);
+        console.log("push registered...");
+
+        // send push
+        console.log("sending push...");
+        await fetch("/subscribe", {
+          method: "POST",
+          body: JSON.stringify(subscription),
+          headers: {
+            "content-type": "application/json",
+          },
+        });
+        console.log("push send....");
+      }
+
+
+
+      // if (res.data.user.role === "admin") {
+      //   console.log(res.data.user);
+      //   window.setTimeout(() => {
+      //     location.assign("/admin");
+      //   }, 5000);
+      // }
+
+
+      // window.setTimeout(() => {
+      //   location.assign("/");
+      // }, 5000);
     }
 
     console.log("called");
@@ -52,7 +94,7 @@ exports.signup = async (name, email, password, confirmpassword) => {
   try {
     const res = await axios({
       method: "POST",
-      url: "http://localhost:8000/signup",
+      url: "https://themehers.in/signup",
       data: {
         name,
         email,
@@ -77,7 +119,7 @@ exports.forgot = async (email) => {
   try {
     const res = await axios({
       method: "POST",
-      url: "http://localhost:8000/forgot",
+      url: "https://themehers.in/forgot",
       data: {
         email,
       },
@@ -120,7 +162,7 @@ exports.getEmail = async (email) => {
   try {
     const response = await axios({
       method: "POST",
-      url: `http://localhost:8000/email`,
+      url: `https://themehers.in/email`,
       data: {
         email,
       },
@@ -140,11 +182,11 @@ exports.updateUser = async (formdata) => {
   try {
     const res = await axios({
       method: "PATCH",
-      url: "http://localhost:8000/user",
+      url: "https://themehers.in/user",
       data: formdata,
       headers: {
         "Content-Type": "multipart/form-data",
-      }
+      },
     });
     console.log(res.data);
 

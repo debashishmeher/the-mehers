@@ -4,8 +4,11 @@ const catchAsync = require("../utility/catchAsync");
 const AppError = require("../utility/AppError");
 const Cart = require("../database/cartModel");
 const crypto = require("crypto");
+const Payment = require("../database/paymentModel");
+const webPush = require("web-push");
 
 const Razorpay = require("razorpay");
+const { log } = require("util");
 const razorpay = new Razorpay({
   key_id: "rzp_test_NkNigZ2328KHsb",
   key_secret: "lxiyUCrBFR1ZVqB1bERofBGJ",
@@ -67,9 +70,12 @@ exports.paymentVerification = catchAsync(async (req, res, next) => {
     .createHmac("sha256", process.env.RAZORPAY_SECRET_KEY)
     .update(body.toString())
     .digest("hex");
+  console.log(req.body);
+
   if (razorpay_signature === verifySignature) {
     req.body.payType = "online";
     console.log("payment verify");
+
     return next();
   } else {
     return next(new AppError("signature missmatch", 404));
@@ -80,36 +86,54 @@ exports.createOrder = catchAsync(async (req, res, next) => {
   if (!req.body.user) req.body.user = req.user.id;
   const products = await Cart.find({ user: req.user.id });
   const { address } = req.query;
-  let price = 0;
-  let productids = [];
-  for (let i = 0; i < products.length; i++) {
-    const el = products[i];
-    const productPrice =
-      (el.product.price - (el.product.price * el.product.discount) / 100) *
-      el.quantity;
-    price += productPrice;
-    productids.push(el.id);
+  let userpayment;
+  if (products.length <= 0) {
+    return next(new AppError("your cart is empty", 404));
+  } else {
+    let price = 0;
+    let productids = [];
+    for (let i = 0; i < products.length; i++) {
+      const el = products[i];
+      const productPrice =
+        (el.product.price - (el.product.price * el.product.discount) / 100) *
+        el.quantity;
+      price += productPrice;
+      const product=await Product.findById(el.product.id)
+      console.log(product);
+      
+      product.quantity = product.quantity * 1 - el.quantity
+      await product.save()
+      productids.push(el.id);
+    }
+    req.body.price = price;
+    req.body.product = productids;
+    req.body.address = address;
+    const order = await Order.create(req.body);
+    if (order) {
+      userpayment = new Payment({
+        user: req.user.id,
+        paymentId: req.body.razorpay_payment_id,
+        orderId: req.body.razorpay_order_id,
+        amount: req.body.price,
+        paymentSignature: req.body.razorpay_signature,
+      });
+
+      await userpayment.save();
+      await Cart.deleteMany({ user: req.user.id });
+      
+    }
+
+    res.status(201).render("orderSuccess", { order,userpayment });
   }
-  req.body.price = price;
-  req.body.product = productids;
-  req.body.address = address;
-  const order = await Order.create(req.body);
-  if (order) {
-    await Cart.deleteMany({ user: req.user.id });
-  }
-  console.log(order,req.body);
-  
-  res.status(201).render("orderSuccess", { order });
 });
 
 exports.allOrders = catchAsync(async (req, res, next) => {
   const orders = await Order.find({
     status: { $ne: "delivered" },
   }).populate("product.productId");
-  res.status(200).json({
-    status: "success",
-    orders,
-  });
+  console.log(orders);
+  
+  res.status(200).render("adminorder",{orders});
 });
 
 exports.OneOrders = catchAsync(async (req, res, next) => {

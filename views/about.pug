@@ -1,24 +1,52 @@
 extend base
 
 block content
-    .page-heading.events-page-heading
-        h3.page-name about us 
-        .page-links 
-            a(href="/") home |
-            a(href="#") about
+    .page-head.align-center.shop-page 
+        .page-head-item
+            h1.page-heading shop
+            a(href="/").page-link home | 
+            a(href="#").page-link shop 
     .about-container 
         section.introduction 
-            .intro-left 
-                img.intro-img(src="/./image/demo-bulding.jpg", alt="")
-                .img-shadow
-                .intro-logo.align-center
-                    img(src="/./image/logo.png", alt="")
-            .intro-right
-                h2.heading-h1 introduction 
-                p.para Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis necessitatibus exercitationem architecto atque, deserunt assumenda repellat dolorem fuga eaque repellendus quaerat optio doloremque laborum delectus maxime dignissimos unde incidunt asperiores illo vel, fugit est nesciunt. Dicta expedita fugit nobis, deleniti iste aliquam necessitatibus aut impedit perferendis dolores perspiciatis et ipsum.
-                p.para Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis necessitatibus exercitationem architecto atque, deserunt assumenda repellat dolorem fuga eaque repellendus quaerat optio doloremque laborum delectus maxime dignissimos unde incidunt asperiores illo vel, fugit est nesciunt. Dicta expedita fugit nobis, deleniti iste aliquam necessitatibus aut impedit perferendis dolores perspiciatis et ipsum.
-                p.para Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis necessitatibus exercitationem architecto atque, deserunt assumenda repellat dolorem fuga eaque repellendus quaerat optio doloremque laborum delectus maxime dignissimos unde incidunt asperiores illo vel, fugit est nesciunt. Dicta expedita fugit nobis, deleniti iste aliquam necessitatibus aut impedit perferendis dolores perspiciatis et ipsum.
+            .intro-info 
+                h1.sub-heading Introduction
+                p.para At Themehers, we are all about making stylish and unique clothing. Our clothes are designed to help you express yourself and feel great. We focus on creating high-quality pieces that combine new ideas with classic styles, so you always look and feel your best.
+                p.para Our founder, Abani Kumar Meher, is passionate about fashion and detail. He started Themehers with a dream to bring elegance and modern style together. Today, Themehers is known for its dedication to quality and innovation, making it the perfect choice for anyone who loves fashion.
+            .intro-photo 
+                img(src="/./image/signup.png" alt="")
         section.mission 
             .mission-box 
-                h2.heading-h1 mission
-                p.para.mission-para Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa placeat consequuntur corrupti asperiores, sunt quisquam. Quidem voluptatem ipsam laborum cupiditate iste aliquid corporis quos in esse labore velit debitis, numquam placeat nobis cumque, officiis est. Veritatis nulla, doloremque quod, repellendus id possimus dicta libero, in laudantium rerum ipsam asperiores laboriosam!
+                h1.sub-heading Our Mission 
+                p.para At Themehers, we want to make people feel great through fashion. We create unique and high-quality clothes that help you express who you are. Our goal is to mix new ideas with classic styles, so every piece shows our love for good design. Join us in making the world a more stylish place, one outfit at a time.
+        section.owner-sec
+            .owner 
+                .owner-left 
+                    span.heighlite The Mehers
+                    h2.heading-h1 Abani Kumar Meher
+                    p.para  Meet Abani Kumar Meher, the visionary behind Themehers. With an innate passion for fashion and an eye for detail, Abani has turned his dream into a reality by creating a clothing brand that blends elegance with modern style. His dedication to craftsmanship and innovative designs sets Themehers apart, making it a go-to destination for fashion-forward individuals.
+                .owner-right 
+                    img(src="/./image/owner.jpg" alt="")
+        section.team 
+            .team-member
+                .team-head 
+                    img(src="/./image/signup.png", alt="")
+                    .team-info 
+                        p.title sales executive 
+                        p.name name of sales exe
+                        .call 
+                            span.material-symbols-outlined phone_in_talk 
+                            .call-num 732889428
+                .team-body 
+                    p.para Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias atque earum doloremque officia consectetur nesciunt porro eveniet odit at ea?
+            .team-member 
+                .team-head 
+                    img(src="/./image/signup.png", alt="")
+                    .team-info 
+                        p.title sales executive 
+                        p.name name of sales exe
+                        .call 
+                            span.material-symbols-outlined phone_in_talk 
+                            .call-num 732889428
+                .team-body 
+                    p.para Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias atque earum doloremque officia consectetur nesciunt porro eveniet odit at ea?
+

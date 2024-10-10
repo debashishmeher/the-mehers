@@ -15,7 +15,7 @@ header.mainheader
                 <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="24" height="24"><path d="M12,12A6,6,0,1,0,6,6,6.006,6.006,0,0,0,12,12ZM12,2A4,4,0,1,1,8,6,4,4,0,0,1,12,2Z"/><path d="M12,14a9.01,9.01,0,0,0-9,9,1,1,0,0,0,2,0,7,7,0,0,1,14,0,1,1,0,0,0,2,0A9.01,9.01,0,0,0,12,14Z"/></svg>
             a(href=`/${user ? 'cart' : 'login'}`).cart
                 .cart-count.align-center 
-                    span 3
+                    span=cart
                 <?xml version="1.0" encoding="UTF-8"?>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><g id="_01_align_center" data-name="01 align center"><path d="M24,3H4.242L4.2,2.649A3,3,0,0,0,1.222,0H0V2H1.222a1,1,0,0,1,.993.883L3.8,16.351A3,3,0,0,0,6.778,19H20V17H6.778a1,1,0,0,1-.993-.884L5.654,15H21.836ZM20.164,13H5.419L4.478,5H21.607Z"/><circle cx="7" cy="22" r="2"/><circle cx="17" cy="22" r="2"/></g></svg>
     .navbar 
@@ -23,9 +23,9 @@ header.mainheader
         ul 
             li: a(href="/" onclick="toggleFun()") home
             li: a(href="/shop" onclick="toggleFun()") shop
-            li: a(href="#" onclick="toggleFun()") best seller
-            li: a(href="#" onclick="toggleFun()") new arrivals
-            li: a(href="#" onclick="toggleFun()") accessories
+            li: a(href="/shop" onclick="toggleFun()") best seller
+            li: a(href="/shop" onclick="toggleFun()") new arrivals
+            li: a(href="/shop" onclick="toggleFun()") accessories
             li: a(href="/blogs" onclick="toggleFun()") blog
-            li: a(href="#" onclick="toggleFun()") about us
-            li: a(href="#" onclick="toggleFun()") contact us
+            li: a(href="/about" onclick="toggleFun()") about us
+            li: a(href="/contact" onclick="toggleFun()") contact us

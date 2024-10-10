@@ -9,42 +9,91 @@ block content
    .shop-container 
       .align-center
          .shop-cat 
-            .shop-cat-box 
+            a(href="?catagory=pata").shop-cat-box 
                .cat-img
-                  img(src="/./image/catagory/cat1.png" alt="")
-               .cat-name cat-1
-            .shop-cat-box 
+                  img(src="/./image/catagory/pasapali-saree.png" alt="")
+               .cat-name Sambalpuri Saree
+            a(href="?catagory=pata").shop-cat-box 
                .cat-img
-                  img(src="/./image/catagory/cat1.png" alt="")
-               .cat-name cat-1
-            .shop-cat-box 
+                  img(src="/./image/catagory/double-border-safta.png" alt="")
+               .cat-name Sambalpuri DoubleBorder Saree
+            a(href="?catagory=pata").shop-cat-box 
                .cat-img
-                  img(src="/./image/catagory/cat1.png" alt="")
-               .cat-name cat-1
-            .shop-cat-box 
+                  img(src="/./image/catagory/patch-work.png" alt="")
+               .cat-name Sambalpuri Patch Work
+            a(href="?catagory=pata").shop-cat-box 
                .cat-img
-                  img(src="/./image/catagory/cat1.png" alt="")
-               .cat-name cat-1
-            .shop-cat-box 
+                  img(src="/./image/catagory/tisu-pata.png" alt="")
+               .cat-name Sambalpuri Tisu Pata Saree
+            a(href="?catagory=pata").shop-cat-box 
                .cat-img
-                  img(src="/./image/catagory/cat1.png" alt="")
-               .cat-name cat-1
-            .shop-cat-box 
+                  img(src="/./image/catagory/pere-pere-safta-pata.png" alt="")
+               .cat-name Sambalpuri Pata Saree
+            a(href="?catagory=pata").shop-cat-box 
                .cat-img
-                  img(src="/./image/catagory/cat1.png" alt="")
-               .cat-name cat-1
-            .shop-cat-box 
+                  img(src="/./image/catagory/pata-dress-piece.png" alt="")
+               .cat-name Sambalpuri Pata Dress Meterial
+            a(href="?catagory=pata").shop-cat-box 
                .cat-img
-                  img(src="/./image/catagory/cat1.png" alt="")
-               .cat-name cat-1
-            .shop-cat-box 
+                  img(src="/./image/catagory/utkal-laxmi-dress.png" alt="")
+               .cat-name Sambalpuri Dress Meterial
+            a(href="?catagory=pata").shop-cat-box 
                .cat-img
-                  img(src="/./image/catagory/cat1.png" alt="")
-               .cat-name cat-1
-            .shop-cat-box 
+                  img(src="/./image/catagory/sambalpuri-anarkali.png" alt="")
+               .cat-name Sambalpuri Ledies Kurti
+            a(href="?catagory=pata").shop-cat-box 
                .cat-img
-                  img(src="/./image/catagory/cat1.png" alt="")
-               .cat-name cat-1
+                  img(src="/./image/catagory/gents-kurta.png" alt="")
+               .cat-name Sambalpuri Gents Kurta
+            a(href="?catagory=pata").shop-cat-box 
+               .cat-img
+                  img(src="/./image/catagory/sambalpuri-blezer.png" alt="")
+               .cat-name Sambalpuri Blazer
+            a(href="?catagory=pata").shop-cat-box 
+               .cat-img
+                  img(src="/./image/catagory/kids-kurta.png" alt="")
+               .cat-name Sambalpuri Kids Kurta
+            a(href="?catagory=pata").shop-cat-box 
+               .cat-img
+                  img(src="/./image/catagory/kids-frock.png" alt="")
+               .cat-name Sambalpuri Kids Frock
+            a(href="?catagory=pata").shop-cat-box 
+               .cat-img
+                  img(src="/./image/catagory/gamcha.png" alt="")
+               .cat-name Sambalpuri Gamcha
+            a(href="?catagory=pata").shop-cat-box 
+               .cat-img
+                  img(src="/./image/catagory/lungi.png" alt="")
+               .cat-name Sambalpuri Lungi
+            a(href="?catagory=pata").shop-cat-box 
+               .cat-img
+                  img(src="/./image/catagory/jotha.png" alt="")
+               .cat-name Sambalpuri Jatha
+            a(href="?catagory=pata").shop-cat-box 
+               .cat-img
+                  img(src="/./image/catagory/matha-Scarpe.png" alt="")
+               .cat-name Sambalpuri Swal
+            a(href="?catagory=pata").shop-cat-box 
+               .cat-img
+                  img(src="/./image/catagory/safta-bedsheet.png" alt="")
+               .cat-name Sambalpuri Bedsheet
+            a(href="?catagory=pata").shop-cat-box 
+               .cat-img
+                  img(src="/./image/catagory/dupatta.png" alt="")
+               .cat-name Sambalpuri Duppta
+            a(href="?catagory=pata").shop-cat-box 
+               .cat-img
+                  img(src="/./image/catagory/rumal.png" alt="")
+               .cat-name Sambalpuri Rumal
+            a(href="?catagory=pata").shop-cat-box 
+               .cat-img
+                  img(src="/./image/catagory/blouse-piece.png" alt="")
+               .cat-name Sambalpuri Blouse Piece
+            a(href="?catagory=pata").shop-cat-box 
+               .cat-img
+                  img(src="/./image/catagory/wall-hanging.png" alt="")
+               .cat-name Sambalpuri Wall Hanging
+      //- .info=totalDoc
       .products-container 
          each product of products 
             a(href=`/product/${product.id}`).product-card 
@@ -55,3 +104,4 @@ block content
                   p.product-price=`₹${product.price}.00`
                   p.product-discounted=`₹${product.price - (product.price * product.discount / 100)}.00`
                //- button.btn.add-cart-btn(data-product-id=`${product.id}`) cart
+   //- include _pagination

@@ -1,0 +1,24 @@
+//- pagination.pug
+nav
+    ul.pagination
+        if currentPage > 1
+            li
+                a(href=`?page=${currentPage - 1}`) Previous
+        else
+            li.disabled
+                span Previous
+
+        while n < totalPages
+            if i == currentPage
+                li.active
+                    span= i
+            else
+                li
+                    a(href=`?page=${i}`)= i
+
+        if currentPage < totalPages
+            li
+                a(href=`?page=${currentPage + 1}`) Next
+        else
+            li.disabled
+                span Next

@@ -3,9 +3,10 @@ const catchAsync = require("../utility/catchAsync");
 const AppError = require("../utility/AppError");
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
-const { log } = require("console");
 const sendEmail = require("../utility/email");
 const crypto = require("crypto");
+const Cart=require('../database/cartModel')
+
 
 const signtoken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET_KEY);
@@ -13,9 +14,7 @@ const signtoken = (id) => {
 
 const createTokenAndSend = (user, statuscode, res) => {
   const token = signtoken(user._id);
-  res.cookie("token",token,{expires: new Date(Date.now() + 5259600000), httpOnly: true })
-  console.log(user);
-  
+  res.cookie("token", token, { expires: new Date(Date.now() + 5259600000), httpOnly: true })
   res.status(statuscode).json({
     status: "success",
     token,
@@ -24,14 +23,14 @@ const createTokenAndSend = (user, statuscode, res) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
-  if(req.body.role=="admin"){
-    const admin= await User.findOne({role:"admin"})
-    if(admin){
-      return next(new AppError("admin already exist...",404))
+  if (req.body.role == "admin") {
+    const admin = await User.findOne({ role: "admin" })
+    if (admin) {
+      return next(new AppError("admin already exist...", 404))
     }
   }
   const user = await User.create(req.body);
-createTokenAndSend(user,201,res)
+  createTokenAndSend(user, 201, res)
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -46,13 +45,13 @@ exports.login = catchAsync(async (req, res, next) => {
   if (!user || !(await user.checkPassword(password, user.password))) {
     return next(new AppError("invalid user and password"), 404);
   }
-  createTokenAndSend(user,200,res)
+  createTokenAndSend(user, 200, res)
 });
 
 
 // is login middle-ware
 exports.isLogin = async (req, res, next) => {
-  
+
   try {
     if (req.cookies.token) {
       const token = req.cookies.token;
@@ -61,12 +60,14 @@ exports.isLogin = async (req, res, next) => {
         process.env.JWT_SECRET_KEY
       );
       const currentuser = await User.findById(decode.id);
+      const cart=await Cart.find({user:currentuser.id})
       if (!currentuser) {
         return next();
       }
       if (currentuser.changepasswordAfter(jwt.iat)) {
         return next();
       }
+      res.locals.cart=cart.length;
       res.locals.user = currentuser;
       return next();
     }
@@ -77,16 +78,16 @@ exports.isLogin = async (req, res, next) => {
 };
 
 exports.protect = async (req, res, next) => {
-  
+
   let token;
-  if(req.cookies.token){
-    token=req.cookies.token
+  if (req.cookies.token) {
+    token = req.cookies.token
   }
 
   if (!token) {
     return next(new AppError("you are not login plaease log in", 404));
   }
-  
+
   const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET_KEY);
   const currentUser = await User.findOne({ _id: decode.id });
 
@@ -147,8 +148,6 @@ exports.forgetpassword = catchAsync(async (req, res, next) => {
 
 exports.resetpassword = catchAsync(async (req, res, next) => {
   const getToken = req.params.resetToken;
-  console.log(getToken);
-
   const hashedToken = crypto
     .createHash("sha256")
     .update(getToken)
@@ -188,3 +187,12 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   await user.save();
   createTokenAndSend(user, 201, res);
 });
+
+// exports.googleAuthController = catchAsync(async (req, res, next) => {
+//   const user = await User.findOne({
+//     email: req.body.email
+//   })
+//   if(user.email){
+    
+//   }
+// })

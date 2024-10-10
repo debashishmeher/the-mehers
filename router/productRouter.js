@@ -8,7 +8,7 @@ Router.route("/")
   .post(
     authController.protect,
     authController.accessTo("admin"),
-    productController.mainphoto,
+    productController.photo,
     productController.processimgmainphoto,
     productController.createproduct
   )

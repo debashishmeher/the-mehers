@@ -20,7 +20,7 @@
   /* border: 2px solid rgb(67, 67, 67); */
 }
 :root {
-    --theme-color: rgb(220, 63, 63);
+    --theme-color: rgb(141, 0, 193);
     --font-family: "Lato", sans-serif;
 }
 
@@ -64,7 +64,7 @@ tr:nth-child(even) {
 }
 .sub-heading{
   font-size: 2rem;
-  margin: 10px 10%;
+  margin: 10px;
 }
 
 .mainheader {
@@ -116,7 +116,10 @@ h3 {
   background-color: rgb(151, 151, 255);
     display: flex;
 }
-
+.para{
+  margin: 1rem;
+  line-height: 150%;
+}
 
 .alert {
     position: fixed;

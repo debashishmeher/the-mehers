@@ -8,9 +8,11 @@ block content
                 .product-photo-main 
                     img#mainPhoto(src=`/./image/product/${product.mainphoto}`, alt="")
                 .product-sub-photo 
-                    img(src=`/./image/product/${product.mainphoto}`, alt="" onclick=`changePhoto("/./image/product/${product.mainphoto}")`).sub-photo
+                    .sub-photo-box
+                        img(src=`/./image/product/${product.mainphoto}`, alt="" onclick=`changePhoto("/./image/product/${product.mainphoto}")`).sub-photo
                     each photo of product.photo
-                        img(src=`/./image/product/${photo}`, alt="" onclick=`changePhoto("/./image/product/${photo}")`).sub-photo
+                        .sub-photo-box
+                            img(src=`/./image/product/${photo}`, alt="" onclick=`changePhoto("/./image/product/${photo}")`).sub-photo
 
         .product-item-info 
             p.product-catagory=product.catagory

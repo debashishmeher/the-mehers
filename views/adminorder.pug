@@ -1,4 +1,31 @@
 extend admin 
 
 block admincontent 
-    h1 this is admin order page
+    .admin-product 
+    form#product-search.search-item 
+        .input-box 
+            label(for="name") name :- 
+            input(type="text" name="name") 
+        .input-box 
+            label(for="code") code :- 
+            input(type="text" name="code") 
+        button.admin-btn(type="submit") search
+    .admin-product-container
+        .product-table 
+            table 
+                tr
+                    th Sl.no 
+                    th name
+                    th code
+                    th quantity
+                    th price per piece
+                    th action
+                each order , index in orders
+                    tr 
+                        td=`${index + 1}`
+                        //- td=order.product[0].mainphoto
+                        td=order.address
+                        td=order.price
+                        td=order.phone
+                        td 
+                            a(href=`/admin/product/${order.id}`) edit

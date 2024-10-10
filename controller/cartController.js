@@ -1,21 +1,26 @@
 const Cart = require("../database/cartModel");
 const catchAsync = require("../utility/catchAsync");
 const AppError = require("../utility/AppError");
-const Address=require("../database/addressModel")
+const Address = require("../database/addressModel");
 
 // adding items in cart----------------------
 exports.addItem = catchAsync(async (req, res, next) => {
   if (!req.body.user) req.body.user = req.user.id;
   if (!req.body.product) req.body.product = req.params.productId;
+  const quan = req.body.quantity;
+  if (quan < 1 || quan > 5) {
+    return next(new AppError("quantity is not valid", 404));
+  }
+
   const product = await Cart.find({ user: req.user.id });
-  let isitem=true;
+  let isitem = true;
   product.forEach((el) => {
     if (el.product.id == req.body.product) {
-      isitem=false;
+      isitem = false;
       return next(new AppError("atem already in your cart", 404));
     }
   });
-  if(isitem){
+  if (isitem) {
     await Cart.create(req.body);
   }
   res.status(201).json({
@@ -54,7 +59,7 @@ exports.getUserItems = catchAsync(async (req, res, next) => {
 exports.getUsercheckout = catchAsync(async (req, res, next) => {
   const userId = req.user.id;
   const items = await Cart.find({ user: userId });
-  const address=await Address.find({user:userId})
+  const address = await Address.find({ user: userId });
   let total = 0;
   let discount = 0;
   let sipping = 40;
@@ -74,7 +79,9 @@ exports.getUsercheckout = catchAsync(async (req, res, next) => {
   if (total >= 5000) {
     sipping = 0;
   }
-  res.status(200).render("checkout", { items,address, total, discount, sipping });
+  res
+    .status(200)
+    .render("checkout", { items, address, total, discount, sipping });
 });
 
 // update item quantity-------------------------------
@@ -82,6 +89,9 @@ exports.updateUserItems = catchAsync(async (req, res, next) => {
   const itemId = req.params.itemId;
   const items = await Cart.findById(itemId);
   items.quantity = req.body.quantity;
+  if (items.quantity < 1 || items.quantity > 5) {
+    return next(new AppError("quantity is not valid", 404));
+  }
   await items.save();
   res.status(200).json({
     status: "success",

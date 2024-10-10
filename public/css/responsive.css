@@ -8,6 +8,16 @@
         order: 3;
         flex-grow: 1;
     }
+    .doddle{
+        display: none;
+    }
+    .products-container {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+    .product-card {
+        max-width: 250px;
+        min-width: 150px;
+    }
 }
 
 @media screen and (max-width:650px) {
@@ -51,6 +61,16 @@
     }
     .home-product-container::-webkit-scrollbar,.shop-cat::-webkit-scrollbar{
         display: none;
+    }
+    .doddle{
+        display: none;
+    }
+    .products-container {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+    .product-card {
+        max-width: 250px;
+        min-width: 150px;
     }
 }
 

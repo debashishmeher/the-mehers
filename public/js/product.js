@@ -22,13 +22,16 @@ exports.addtocart= async (productid,quantity) => {
     try {
       const res = await axios({
         method: "POST",
-        url: `http://localhost:8000/cart/${productid}`,
+        url: `https://themehers.in/cart/${productid}`,
         data: {
           quantity
         },
       });
       if (res.data.status === "success") {
         showAlert("success", res.data.message);
+        window.setTimeout(() => {
+          location.assign("/cart");
+        }, 500);
       }
     } catch (err) {
       showAlert("err", err.response.data.message);
@@ -40,7 +43,7 @@ exports.addtocart= async (productid,quantity) => {
     try {
       const res = await axios({
         method: "PATCH",
-        url: `http://localhost:8000/cart/${itemid}`,
+        url: `https://themehers.in/cart/${itemid}`,
         data: quantity,
         httpOnly: true,
       });
@@ -62,7 +65,7 @@ exports.addtocart= async (productid,quantity) => {
     try {
       const res = await axios({
         method: "DELETE",
-        url: `http://localhost:8000/cart/${cartitem}`,
+        url: `https://themehers.in/cart/${cartitem}`,
         httpOnly: true,
       });
       console.log(res.data);
@@ -83,7 +86,7 @@ exports.addtocart= async (productid,quantity) => {
     try {
       const res = await axios({
         method: "POST",
-        url: `http://localhost:8000/address`,
+        url: `https://themehers.in/address`,
         data: formData,
         httpOnly: true,
       });
@@ -107,7 +110,7 @@ exports.addtocart= async (productid,quantity) => {
     console.log(formdata);
       try {
     
-        const resp = await axios("http://localhost:8000/order/checkout");
+        const resp = await axios("https://themehers.in/order/checkout");
         console.log(resp);
         if (resp.data.status === "success") {
           showAlert("success", "Redirect to Payment Successful.");
@@ -136,7 +139,7 @@ exports.addtocart= async (productid,quantity) => {
               name: resp.data.user.name,
               email: resp.data.user.email,
             },
-            callback_url:`http://localhost:8000/order/order/?address=${formdata.address}&payType=online`,
+            callback_url:`https://themehers.in/order/order/?address=${formdata.address}&payType=online`,
             options: optionshow,
     
             notes: {

@@ -1,0 +1,66 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title the meher's | Schedule form
+        link(rel="stylesheet" href="/./css/common.css")
+        link(rel="stylesheet" href="/./css/form.css")
+        link(rel="stylesheet" href="/./css/admin.css")
+        link(rel="stylesheet" href="/./css/offline.css")
+        link(rel="stylesheet" href="/./css/responsive.css")
+    body
+        header.header.sub-header.mainheader
+            .left-arrow(onclick="goback()")
+                <svg enable-background="new 0 0 45 34" height="24px" id="Layer_1" version="1.1" viewBox="0 0 45 34" width="45px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon fill="#ffffff" points="19.626,31.705 7.712,20 45,20 45,15 7.712,15 19.626,3.006 16.798,0.273 -0.38,17.499   16.798,34.605 "/></svg>
+            h2 edit 
+        .offline-sell 
+            .offline-left 
+                .product-image 
+                    .product-photo-main 
+                        img#mainPhoto(src=`/./image/product/${product.mainphoto}`, alt="")
+                    .product-sub-photo 
+                        .sub-photo-box
+                            img(src=`/./image/product/${product.mainphoto}`, alt="" onclick=`changePhoto("/./image/product/${product.mainphoto}")`).sub-photo
+                        each photo of product.photo
+                            .sub-photo-box
+                                img(src=`/./image/product/${photo}`, alt="" onclick=`changePhoto("/./image/product/${photo}")`).sub-photo
+                .product-item-info 
+                    p.product-catagory=product.catagory
+                    h3=product.name
+                    p.para=product.desc
+                    .rating * * * * * (26)
+                    .product-quantity available quantity - #{product.quantity}
+                    p.item-price=`₹ ${product.price}.00`
+                    p.item-discounted=`₹${product.price - (product.price * product.discount / 100)}.00`
+                        span.offer=` ${product.discount}% off`
+            .offline-right 
+                .action-btns
+                    form#offline-sell.sell-box(data-productid=`${product.id}`) 
+                        h3.form-heading selling
+                        p.item-price=`₹ ${product.price}.00`
+                        p.item-discounted=`₹${product.price - (product.price * product.discount / 100)}.00`
+                            br
+                            span.offer=` ${product.discount}% off`
+                        .input-box
+                            .input-name
+                                label(for="sell") selling price
+                                <svg class="input-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16">
+                                <path fill="#ffffff" d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+                                </svg>
+                            input#selling-price(type="number" name="sell")
+                        .input-box
+                            .input-name
+                                label(for="phone") phone
+                                <svg class="input-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16">
+                                <path fill="#ffffff" d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+                                </svg>
+                            input#selling-price(type="number" name="phone")
+                        button.admin-btn sell
+                    button.admin-btn sell 
+                    button.admin-btn sell 
+
+
+        script(src="/./main.js") 
+        script(src="/./js/frontend.js")         
+        script(src="/./js/index.js")         

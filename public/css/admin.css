@@ -262,3 +262,8 @@
         border-radius: 10px;
     }
 }
+.sell-box {
+    .admin-btn{
+        width: 100%;
+    }
+}

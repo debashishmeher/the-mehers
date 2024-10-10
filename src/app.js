@@ -15,6 +15,7 @@ const webPush = require("web-push");
 const bodyParser = require("body-parser");
 const pug = require("pug");
 const cors=require("cors")
+const session=require("express-session")
 
 // middleware
 const userRouter = require("../router/userRouter.js");
@@ -27,11 +28,19 @@ const cartRouter = require("../router/cartRouter.js");
 const enquaryRouter=require("../router/enquaryRouter.js")
 const Notification=require("../database/notificationModel.js");
 const catchAsync = require("../utility/catchAsync.js");
+const notificationController=require("../controller/notificationController.js")
+const authController=require("../controller/authController.js")
 
 // app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+app.use(session({
+  resave:true,
+  saveUninitialized:true,
+  secret:process.env.SESSION_SECRET
+}))
 
 // set view engine
 app.set("view engine", "pug");
@@ -53,40 +62,19 @@ app.use("/enquary", enquaryRouter);
 // push notification............
 
 // const vapidKeys = webPush.generateVAPIDKeys();
+// console.log(vapidKeys);
 
-const publicVapidKey =
-  "BGx8a9-bGaQeKUuW-lsQb3LGIIH1OL9w9eq-ERdK7HrtIHbAmcn2yBxO32E8d8KaqrAYA3BXgMXSDXaGJzxzays";
-const privateVapidKey = "wd3-Y8CYkztOMMlithbRR7DFq-2_U1A2vHELx2BhbWA";
+// const publicVapidKey =
+//   'BO64nFLjYDrOH1GvwXftIEEroUpihOost6Rcutdw1O-rqTDIFgS2sZwNTApxSAYFZ_JaIeS2Ul75qXhuhhzq3ao';
+// const privateVapidKey = 'P-SLRT-rJqQBLeXdL1glzwclnHWzHxzW8NN5OhSi5yM';
 
-webPush.setVapidDetails("mailto:debashishmeher955@gmail.com",publicVapidKey,privateVapidKey);
+// webPush.setVapidDetails("mailto:debashishmeher955@gmail.com",publicVapidKey,privateVapidKey);
 
 // ?routes
-app.post("/subscribe",catchAsync(async(req,res)=>{
-  const suscription=req.body;
-  let user;
-  if (res.locals.user) {
-    user = res.locals.user.id;
-  }
-  console.log(user,suscription);
-  const notification=new Notification({
-    user:user,
-    notification:suscription
-  })
-  await notification.save()
-  res.status(201).json({
-    status:"success",
-    message:"sending notification"
-  })
-
-  const payload=JSON.stringify({ title:"push testing"})
-
-  // webPush.sendNotification(suscription,payload).catch(err=>{
-  //   console.log(err);
-  // })
-}))
+app.post("/subscribe",authController.protect,notificationController.createNotification)
 
 app.all("*", (req, res, next) => {
-  return next(new AppError(`${req.originalUrl} not found on the server`, 404));
+  res.status(404).render("404error")
 });
 
 app.use(globalErrorHandelling);

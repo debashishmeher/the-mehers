@@ -14,6 +14,32 @@ function sideToggle() {
 
 }
 
+// let quarylocation = window.location.href.split("?")[1]
+// const pagelink= document.getElementsByClassName("pagelink")
+// if(pagelink){
+//   console.log(quarylocation)
+//   for (let i = 0; i < pagelink.length; i++) {
+//     const el = pagelink[i];
+//     if(quarylocation==undefined){
+//       quarylocation="?"
+//     }
+//     else{
+//       const query=quarylocation.split("&")
+//       if (query.includes("page")) {
+//         el.href=`${quarylocation}&page=${i+1}&limit=10` 
+//       } else {
+//         el.href=`${quarylocation}&page=${i+1}&limit=10` 
+//       }
+//     }
+    
+//   }
+// }
+
+function goback() {
+  console.log("called");
+  
+  window.history.back();
+}
 
 const hero = document.querySelector(".hero");
 if (hero) {
@@ -50,6 +76,11 @@ function changeuserphoto() {
   if (file) {
     PhotoPreview.src = URL.createObjectURL(file);
   }
+}
+
+function changePhoto(imgurl) {
+  const mainPhoto = document.getElementById("mainPhoto");
+  mainPhoto.src = imgurl;
 }
 
 
