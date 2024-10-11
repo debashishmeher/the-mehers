@@ -3,6 +3,7 @@ const Product = require("../database/productModel");
 const catchAsync = require("../utility/catchAsync");
 const AppError = require("../utility/AppError");
 const Cart = require("../database/cartModel");
+const Notification=require("../database/notificationModel")
 const crypto = require("crypto");
 const Payment = require("../database/paymentModel");
 const webPush = require("web-push");
@@ -124,6 +125,17 @@ exports.createOrder = catchAsync(async (req, res, next) => {
     }
 
     res.status(201).render("orderSuccess", { order,userpayment });
+    const notify = await Notification.find({ user: req.user.id });
+    const payload = JSON.stringify({
+      title: "order confirmed",
+      url: "https://themehers.in/",
+    });
+    for (let i = 0; i < notify.length; i++) {
+      const el = notify[i];
+      webPush.sendNotification(el.notification, payload).catch((err) => {
+        console.log(err);
+      });
+    }
   }
 });
 
