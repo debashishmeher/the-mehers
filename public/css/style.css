@@ -190,7 +190,7 @@
 .catagory-box {
   scroll-snap-align: center;
   flex-grow: 1;
-  width: 250px;
+  min-width: 250px;
   height: 250px;
   background-color: brown;
   margin: 10px;
