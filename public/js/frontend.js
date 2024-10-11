@@ -43,7 +43,7 @@ function goback() {
 
 const hero = document.querySelector(".hero");
 if (hero) {
-  let heroheight = hero.offsetWidth * 0.5;
+  let heroheight = hero.offsetWidth * 0.56;
   hero.style.height = `${heroheight}px`;
 }
 
