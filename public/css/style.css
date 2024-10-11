@@ -151,7 +151,7 @@
 
 .hero-box-1 {
   background-color: aquamarine;
-  background-image: url("../image/com-hero.jpg");
+  background-image: url("../image/photo2.jpg");
 }
 
 .hero-box-2 {
@@ -166,7 +166,7 @@
 
 .hero-box-4 {
   background-color: rgb(255, 127, 127);
-  background-image: url("../image/photo3.jpg");
+  background-image: url("../image/photo1.jpg");
 }
 
 .visible-div {
@@ -190,11 +190,18 @@
 .catagory-box {
   scroll-snap-align: center;
   flex-grow: 1;
-  min-width: 250px;
+  width: 250px;
   height: 250px;
   background-color: brown;
   margin: 10px;
+  img{
+    width: 100%;
+    height: 100%;
+  }
 }
+/* .catagory-box-1{
+  back
+} */
 
 .sticky {
   position: fixed;
