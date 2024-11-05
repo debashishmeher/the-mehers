@@ -140,4 +140,31 @@ window.addEventListener("scroll", function () {
       head.style.top = "0";
     }, 300);
   }
+
+  
+  const catbox = document.querySelectorAll(".main-cat-box");
+  const homeabout = document.querySelector(".home-about-left");
+
+  function anim(el, animClass) {
+    if (
+      scrollPoint >= el.offsetTop - 700 &&
+      scrollPoint <= el.offsetTop + el.offsetHeight - 100
+    ) {
+      el.classList.remove(animClass);
+    } else {
+      el.classList.add(animClass);
+    }
+  }
+
+  if (catbox) {
+    for (let index = 0; index < catbox.length; index++) {
+      const el = catbox[index];
+      el.style.transitionDelay = `${index / 6}s`;
+    }
+    catbox.forEach((el) => {
+      anim(el, "left-anim");
+    });
+  }
+
+
 });

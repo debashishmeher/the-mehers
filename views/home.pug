@@ -1,7 +1,7 @@
 extend base
 
 block content
-    section.hero
+    .hero
         .hero-box.hero-box-1
             img(src="./image/photo1.jpg" alt="")
         .hero-box.hero-box-2
@@ -11,15 +11,20 @@ block content
         .hero-box.hero-box-4
             img(src="./image/photo2.jpg" alt="")
 
-    section.catagory
-        .catagory-box.catagory-box-1
-            img(src="/./image/cat1.jpg", alt="")
-        .catagory-box.catagory-box-1
-            img(src="/./image/cat2.jpg", alt="")
-        .catagory-box.catagory-box-1
-            img(src="/./image/cat3.jpg", alt="")
-        .catagory-box.catagory-box-1
-            img(src="/./image/cat4.jpg", alt="")
+    section.main-catagory 
+        .main-cat-box.left-anim
+            .main-cat-img 
+                img(src="/./image/cat1.jpg" alt="")
+            //- h2.main-cat-heading silvers
+        .main-cat-box.left-anim 
+            .main-cat-img 
+                img(src="/./image/cat2.jpg" alt="")
+            //- h2.main-cat-heading golds
+        .main-cat-box.left-anim 
+            .main-cat-img 
+                img(src="/./image/cat3.jpg" alt="")
+            //- h2.main-cat-heading diamonds
+
 
     section.second-catagory
         header.cat-header.align-center
@@ -115,7 +120,7 @@ block content
         h2.sub-heading top catagory
         .home-product-container
             each product of products 
-                a(href=`/product/${product.id}`).product-card 
+                a(href=`/product/${product.id}`).product-card.home-product-card
                     img.product-img(src=`/./image/product/${product.mainphoto}`, alt="")
                     .product-info 
                         p.offer=`${product.discount}% off`

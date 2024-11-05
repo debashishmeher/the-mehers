@@ -1,4 +1,4 @@
-@media screen and (max-width:420px) {
+@media screen and (max-width:520px) {
     .toggle {
         display: block;
     }
@@ -17,6 +17,10 @@
     .product-card {
         max-width: 250px;
         min-width: 150px;
+    }
+    .home-product-card{
+        max-width: 250px;
+        min-width: 200px;
     }
 }
 
@@ -71,6 +75,10 @@
     .product-card {
         max-width: 250px;
         min-width: 150px;
+    }
+    .home-product-card{
+        max-width: 250px;
+        min-width: 200px;
     }
 }
 

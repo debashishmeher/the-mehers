@@ -6,8 +6,8 @@ import {
   getEmail,
   updateUser,
 } from "./login.js";
-import { scheduleenquary, createProduct,createBlogs,createEnquary,offlineSell } from "./admin.js";
-import { addtocart,updateCartItem,deleteToCart,address,buying } from "./product.js";
+import { scheduleenquary, createProduct, createBlogs, createEnquary, offlineSell, editBlogs, deleteBlogs,editProduct } from "./admin.js";
+import { addtocart, updateCartItem, deleteToCart, address, buying } from "./product.js";
 const loginbtn = document.getElementById("login");
 const signupbtn = document.getElementById("signup");
 const forgotbtn = document.getElementById("forgot");
@@ -18,16 +18,19 @@ const userDatabtn = document.getElementById("user-data");
 // admin action ------------------------------
 const scheduleForm = document.getElementById("scheduleForm");
 const productCreate = document.getElementById("create-product");
+const producteditForm = document.getElementById("edit-product");
 const blogCreate = document.getElementById("create-blogs");
+const blogedit = document.getElementById("edit-blogs");
+const blogdeleteBtn= document.getElementById("deleteBlogs");
 const offlineSellForm = document.getElementById("offline-sell");
 
 // general action-------------------------------
-const addtocartBtn=document.getElementById("addtocart")
-const addressBtn=document.getElementById("user-address")
-const cartquantity=document.querySelectorAll(".cartquantity")
-const deleteitem =document.querySelectorAll(".delete-product")
-const checkoutBtn=document.getElementById("order-details")
-const enquaryForm=document.getElementById("enquary")
+const addtocartBtn = document.getElementById("addtocart")
+const addressBtn = document.getElementById("user-address")
+const cartquantity = document.querySelectorAll(".cartquantity")
+const deleteitem = document.querySelectorAll(".delete-product")
+const checkoutBtn = document.getElementById("order-details")
+const enquaryForm = document.getElementById("enquary")
 
 
 function getFilledData(formId) {
@@ -42,10 +45,10 @@ function getFilledData(formId) {
 
     if (elements.type === "file") {
       name = elements.name;
-      if(elements.files.length==1){
+      if (elements.files.length == 1) {
         value = elements.files[0];
       }
-      if(elements.files.length>1){
+      if (elements.files.length > 1) {
         // value=[]
         for (let i = 0; i < elements.files.length; i++) {
           const el = elements.files[i];
@@ -54,8 +57,8 @@ function getFilledData(formId) {
           value = el;
         }
       }
-    } 
-  
+    }
+
     else if (elements.type === "radio") {
       const selectedRadio = document.querySelector(
         `input[name="${elements.name}"]:checked`
@@ -79,7 +82,7 @@ function getFilledData(formId) {
     }
   }
   console.log(filledData);
-  
+
   return filledData;
 }
 
@@ -152,6 +155,15 @@ if (productCreate) {
     createProduct(formdata);
   });
 }
+if (producteditForm) {
+  producteditForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const productid=producteditForm.dataset.productid
+    const formdata = getFilledData("edit-product");
+    // const formdata = new FormData(productCreate);
+    editProduct(productid,formdata);
+  });
+}
 if (blogCreate) {
   blogCreate.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -159,62 +171,78 @@ if (blogCreate) {
     createBlogs(formdata);
   });
 }
+if (blogedit) {
+  blogedit.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const blogid = blogedit.dataset.blogsid
+    const formdata = getFilledData("edit-blogs");
+    editBlogs(blogid, formdata);
+  });
+}
+if (blogdeleteBtn) {
+  blogdeleteBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    confirm("are you sure to delete this blog")
+    const blogid = blogdeleteBtn.dataset.blogsid
+    deleteBlogs(blogid);
+  });
+}
 
 // general action-----------------------
 if (addtocartBtn) {
   addtocartBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    const productid=addtocartBtn.dataset.productid
-    const quantity=document.getElementById("product-quantity").value
-    addtocart(productid,quantity);
+    const productid = addtocartBtn.dataset.productid
+    const quantity = document.getElementById("product-quantity").value
+    addtocart(productid, quantity);
   });
 }
 
-if(cartquantity){
-  
-  const incqun =document.querySelectorAll(".incqun")
-    for (let i = 0; i < incqun.length; i++) {
-      const el = incqun[i];
-        el.addEventListener("click",(e)=>{
-          e.preventDefault();
-        const itemid=el.dataset.itemid;
-        let formdata={}
-        formdata.quantity=cartquantity[i].value*1 + 1
-          console.log(itemid,formdata);
-        updateCartItem(itemid,formdata)
-      })
-    }
-  const decqun =document.querySelectorAll(".decqun")
-    for (let i = 0; i < decqun.length; i++) {
-      const el = decqun[i];
-        el.addEventListener("click",(e)=>{
-          e.preventDefault();
-        const itemid=el.dataset.itemid;
-        let formdata={}
-        formdata.quantity=cartquantity[i].value*1 - 1
-          console.log(itemid,formdata);
-        updateCartItem(itemid,formdata)
-      })
-    }
+if (cartquantity) {
+
+  const incqun = document.querySelectorAll(".incqun")
+  for (let i = 0; i < incqun.length; i++) {
+    const el = incqun[i];
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
+      const itemid = el.dataset.itemid;
+      let formdata = {}
+      formdata.quantity = cartquantity[i].value * 1 + 1
+      console.log(itemid, formdata);
+      updateCartItem(itemid, formdata)
+    })
+  }
+  const decqun = document.querySelectorAll(".decqun")
+  for (let i = 0; i < decqun.length; i++) {
+    const el = decqun[i];
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
+      const itemid = el.dataset.itemid;
+      let formdata = {}
+      formdata.quantity = cartquantity[i].value * 1 - 1
+      console.log(itemid, formdata);
+      updateCartItem(itemid, formdata)
+    })
+  }
   for (let i = 0; i < cartquantity.length; i++) {
     const el = cartquantity[i];
-      el.addEventListener("change",(e)=>{
-        e.preventDefault();
-      const itemid=el.dataset.itemid;
-      let formdata={}
-      formdata.quantity=el.value
-        console.log(itemid,formdata);
-      updateCartItem(itemid,formdata)
+    el.addEventListener("change", (e) => {
+      e.preventDefault();
+      const itemid = el.dataset.itemid;
+      let formdata = {}
+      formdata.quantity = el.value
+      console.log(itemid, formdata);
+      updateCartItem(itemid, formdata)
     })
   }
 }
 
-if(deleteitem){
+if (deleteitem) {
   for (let i = 0; i < deleteitem.length; i++) {
     const el = deleteitem[i];
-      el.addEventListener("click",(e)=>{
-        e.preventDefault();
-      const cartitem=el.dataset.cartitem;
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
+      const cartitem = el.dataset.cartitem;
 
       deleteToCart(cartitem)
     })
@@ -226,35 +254,35 @@ if(deleteitem){
 if (addressBtn) {
   addressBtn.addEventListener("submit", (e) => {
     e.preventDefault();
-    let formData=getFilledData("user-address")
+    let formData = getFilledData("user-address")
     address(formData)
   });
 }
 
-if(checkoutBtn){
+if (checkoutBtn) {
   checkoutBtn.addEventListener("submit", (e) => {
     e.preventDefault();
-    let formData=getFilledData("order-details")
-      buying(formData)
+    let formData = getFilledData("order-details")
+    buying(formData)
     console.log("payment initiate");
   });
 }
 
 // /enquary post
-if(enquaryForm){
- enquaryForm.addEventListener("submit", (e) => {
+if (enquaryForm) {
+  enquaryForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    let formData=getFilledData("enquary")
+    let formData = getFilledData("enquary")
     createEnquary(formData)
   });
 }
 
 // offline selling
-if(offlineSellForm){
-offlineSellForm.addEventListener("submit", (e) => {
+if (offlineSellForm) {
+  offlineSellForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    let formData=getFilledData("offline-sell")
-    const productid=offlineSellForm.dataset.productid;
-    offlineSell(productid,formData)
+    let formData = getFilledData("offline-sell")
+    const productid = offlineSellForm.dataset.productid;
+    offlineSell(productid, formData)
   });
 }

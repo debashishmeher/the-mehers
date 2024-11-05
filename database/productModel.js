@@ -30,11 +30,13 @@ const productSchma=new mongoose.Schema({
     },
     code:{
         type:String,
+        unique:[true,"code name must be unique"],
         default:"uncoded"
     },
     quantity:{
         type:Number,
-        default:1
+        default:1,
+        required:[true,"quantity must be required"]
     },
     weight:{
         type:Number,

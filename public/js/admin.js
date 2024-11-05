@@ -16,7 +16,6 @@ const showAlert = (status, message) => {
 };
 
 exports.scheduleenquary = async (enquaryid,formdata) => {
-
     
     try {
       const res = await axios({
@@ -63,6 +62,30 @@ exports.createProduct = async (formdata) => {
       console.log(err.response);
     }
   };
+exports.editProduct = async (productid,formdata) => {
+    
+    try {
+      const res = await axios({
+        method: "PATCH",
+        url: `https://themehers.in/product/${productid}`,
+        data: formdata,
+        httpOnly: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        }
+      });
+  
+      if (res.data.status === "success") {
+        showAlert("success", res.data.message);
+        window.setTimeout(() => {
+          location.assign(`/admin/product/${productid}`);
+        }, 1000);
+      }
+    } catch (err) {
+      showAlert("err", err.response.data.message);
+      console.log(err.response);
+    }
+  };
 
   // create blogs------------------------------------
 exports.createBlogs = async (formdata) => {
@@ -87,6 +110,53 @@ exports.createBlogs = async (formdata) => {
     } catch (err) {
       showAlert("err", err.response.data.message);
       console.log(err.response);
+    }
+  };
+
+exports.editBlogs = async (blogsid,formdata) => {
+    console.log(blogsid);
+    
+    try {
+      const res = await axios({
+        method: "PATCH",
+        url: `https://themehers.in/blogs/${blogsid}/admin`,
+        data: formdata,
+        httpOnly: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        }
+      });
+  
+      if (res.data.status === "success") {
+        showAlert("success", res.data.message);
+        window.setTimeout(() => {
+          location.assign(`/admin/blogs`);
+        }, 1000);
+      }
+    } catch (err) {
+      showAlert("err", err.response.data.message);
+      console.log(err.response);
+    }
+  };
+
+exports.deleteBlogs = async (blogsid) => {  
+  console.log(blogsid);
+  
+    try {
+      const res = await axios({
+        method: "DELETE",
+        url: `https://themehers.in/blogs/${blogsid}/admin`,
+        httpOnly: true,
+      });
+  
+      if (res.data.status === "success") {
+        showAlert("success", res.data.message);
+        window.setTimeout(() => {
+          location.assign(`/admin/blogs`);
+        }, 1000);
+      }
+    } catch (err) {
+      showAlert("err", err.response.data.message);
     }
   };
 

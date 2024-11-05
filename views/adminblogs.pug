@@ -13,7 +13,7 @@ block admincontent
     a(href="/admin/blogs/create").admin-btn create blogs
     section.admin-blog-container 
         each blog, index in blogs
-            a(href=`/admin/blogs/${blog.id}`).admin-blog-box
+            a(href=`/blogs/${blog.id}/admin`).admin-blog-box
                 .blog-image 
                     img(src=`/./image/blogs/${blog.image}`, alt="")
                 .blog-title 

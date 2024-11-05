@@ -56,10 +56,58 @@ html(lang="en")
                                 <path fill="#ffffff" d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
                                 </svg>
                             input#selling-price(type="number" name="phone")
-                        button.admin-btn sell
-                    button.admin-btn sell 
-                    button.admin-btn sell 
-
+                        button.admin-btn sell 
+        .form-body 
+            form#edit-product(data-productid=`${product.id}`)
+                h2.form-heading create product
+                table.form-table 
+                    tr 
+                        td.table-head main photo :-
+                        td 
+                            input#mainphoto(type="file" name="mainphoto")
+                    tr 
+                        td.table-head photos :-
+                        td 
+                            input#photo(type="file" name="photo" multiple)
+                    tr 
+                        td.table-head name :-
+                        td 
+                            input(type="text" name="name" value=`${product.name}`)
+                    tr 
+                        td.table-head purchase :-
+                        td 
+                            input(type="number" name="purchase" value=`${product.purchase}`)
+                    tr 
+                        td.table-head price :-
+                        td 
+                            input(type="number" name="price" value=`${product.price}`)
+                    tr 
+                        td.table-head discount :-
+                        td 
+                            input(type="number" name="discount" value=`${product.discount}`)
+                    tr 
+                        td.table-head catagory :-
+                        td 
+                            input(type="text" name="catagory" value=`${product.catagory}`)
+                    tr 
+                        td.table-head code :-
+                        td 
+                            input(type="text" name="code" value=`${product.code}`)
+                    tr 
+                        td.table-head quantity :-
+                        td 
+                            input(type="number" name="quantity" value=`${product.quantity}`)
+                    tr 
+                        td.table-head weight :-
+                        td 
+                            input(type="number" name="weight" value=`${product.weight}`)
+                    tr 
+                        td.table-head description :-
+                        td 
+                            textarea(type="text" name="desc" rows="5" )=product.desc
+                .form-action 
+                    button(type="submit").admin-btn edit
+                    button(type="reset").admin-btn delete
 
         script(src="/./main.js") 
         script(src="/./js/frontend.js")         

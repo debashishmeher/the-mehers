@@ -20,12 +20,15 @@
   /* border: 2px solid rgb(67, 67, 67); */
 }
 :root {
-    --theme-color: rgb(141, 0, 193);
+    --theme-color: #550000;
     --font-family: "Lato", sans-serif;
+    --main-color:
 }
 
 body {
     font-family: var(--font-family);
+    /* background-color: #1a200e;
+    color: white; */
 }
 .comming{
   height: 100vh;
@@ -106,7 +109,6 @@ a {
     color: rgb(38, 38, 38);
     display: inline-block;
 }
-
 h3 {
     text-transform: uppercase;
     font-size: 2rem;

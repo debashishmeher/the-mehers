@@ -71,17 +71,17 @@ exports.login = async (email, password) => {
 
 
 
-      // if (res.data.user.role === "admin") {
-      //   console.log(res.data.user);
-      //   window.setTimeout(() => {
-      //     location.assign("/admin");
-      //   }, 5000);
-      // }
-
-
-      // window.setTimeout(() => {
-      //   location.assign("/");
-      // }, 5000);
+      if (res.data.user.role === "admin") {
+        console.log(res.data.user);
+        window.setTimeout(() => {
+          location.assign("/admin");
+        }, 500);
+      }
+      else{
+      window.setTimeout(() => {
+        location.assign("/");
+      }, 500);
+      }
     }
 
     console.log("called");

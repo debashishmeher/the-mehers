@@ -61,6 +61,10 @@ exports.blogInfo = catchAsync(async (req, res, next) => {
   const blog = await Blog.findById(req.params.blogId);
   res.status(200).render("blogInfo", { blog });
 });
+exports.blogedit = catchAsync(async (req, res, next) => {
+  const blog = await Blog.findById(req.params.blogId);
+  res.status(200).render("blogedit", { blog });
+});
 exports.about = catchAsync(async (req, res, next) => {
   res.status(200).render("about");
 });

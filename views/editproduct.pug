@@ -1,0 +1,71 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title the meher's | edit product
+        link(rel="stylesheet" href="/./css/common.css")
+        link(rel="stylesheet" href="/./css/form.css")
+        link(rel="stylesheet" href="/./css/admin.css")
+        link(rel="stylesheet" href="/./css/responsive.css")
+    body 
+        header.header.sub-header.mainheader
+            .left-arrow(onclick="goback()")
+                <svg enable-background="new 0 0 45 34" height="24px" id="Layer_1" version="1.1" viewBox="0 0 45 34" width="45px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon fill="#ffffff" points="19.626,31.705 7.712,20 45,20 45,15 7.712,15 19.626,3.006 16.798,0.273 -0.38,17.499   16.798,34.605 "/></svg>
+            h2 CREATE PRODUCTS
+        .align-center
+            .form-parent
+                .form-left 
+                    form#edit-product
+                        h2.form-heading create product
+                        table.form-table 
+                            tr 
+                                td.table-head main photo :-
+                                td 
+                                    input#mainphoto(type="file" name="mainphoto")
+                            tr 
+                                td.table-head photos :-
+                                td 
+                                    input#photo(type="file" name="photo" multiple)
+                            tr 
+                                td.table-head name :-
+                                td 
+                                    input(type="text" name="name")
+                            tr 
+                                td.table-head purchase :-
+                                td 
+                                    input(type="number" name="purchase")
+                            tr 
+                                td.table-head price :-
+                                td 
+                                    input(type="number" name="price")
+                            tr 
+                                td.table-head discount :-
+                                td 
+                                    input(type="number" name="discount")
+                            tr 
+                                td.table-head catagory :-
+                                td 
+                                    input(type="text" name="catagory")
+                            tr 
+                                td.table-head code :-
+                                td 
+                                    input(type="text" name="code")
+                            tr 
+                                td.table-head quantity :-
+                                td 
+                                    input(type="number" name="quantity")
+                            tr 
+                                td.table-head weight :-
+                                td 
+                                    input(type="number" name="weight")
+                            tr 
+                                td.table-head description :-
+                                td 
+                                    textarea(type="text" name="desc" rows="5" )
+                        .form-action 
+                            button(type="submit").admin-btn edit
+                            button(type="reset").admin-btn clear 
+                
+        script(src="/./main.js") 
+        script(src="/./js/frontend.js")         
