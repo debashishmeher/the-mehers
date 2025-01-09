@@ -3,7 +3,7 @@ const validator = require("validator");
 
 
 const OrderSchema = new mongoose.Schema({
-  product: [{
+  product:[{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Cart",
     required: [true, "product must be required required"],

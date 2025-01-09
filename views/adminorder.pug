@@ -16,16 +16,14 @@ block admincontent
                 tr
                     th Sl.no 
                     th name
-                    th code
-                    th quantity
-                    th price per piece
+                    th address
+                    th price
                     th action
                 each order , index in orders
                     tr 
                         td=`${index + 1}`
-                        //- td=order.product[0].mainphoto
+                        td=order.user.name
                         td=order.address
                         td=order.price
-                        td=order.phone
                         td 
-                            a(href=`/admin/product/${order.id}`) edit
+                            a(href=`/admin/order/${order.id}`) edit

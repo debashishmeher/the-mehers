@@ -6,7 +6,7 @@ import {
   getEmail,
   updateUser,
 } from "./login.js";
-import { scheduleenquary, createProduct, createBlogs, createEnquary, offlineSell, editBlogs, deleteBlogs,editProduct } from "./admin.js";
+import { scheduleenquary, createProduct, createBlogs, createEnquary, offlineSell, editBlogs, deleteBlogs, editProduct, deleteProduct } from "./admin.js";
 import { addtocart, updateCartItem, deleteToCart, address, buying } from "./product.js";
 const loginbtn = document.getElementById("login");
 const signupbtn = document.getElementById("signup");
@@ -19,9 +19,10 @@ const userDatabtn = document.getElementById("user-data");
 const scheduleForm = document.getElementById("scheduleForm");
 const productCreate = document.getElementById("create-product");
 const producteditForm = document.getElementById("edit-product");
+const productdeleteBtn = document.getElementById("delete-product");
 const blogCreate = document.getElementById("create-blogs");
 const blogedit = document.getElementById("edit-blogs");
-const blogdeleteBtn= document.getElementById("deleteBlogs");
+const blogdeleteBtn = document.getElementById("deleteBlogs");
 const offlineSellForm = document.getElementById("offline-sell");
 
 // general action-------------------------------
@@ -158,10 +159,18 @@ if (productCreate) {
 if (producteditForm) {
   producteditForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    const productid=producteditForm.dataset.productid
+    const productid = producteditForm.dataset.productid
     const formdata = getFilledData("edit-product");
-    // const formdata = new FormData(productCreate);
-    editProduct(productid,formdata);
+    // const formdata = new FormData(producteditForm);
+    editProduct(productid, formdata);
+  });
+}
+if (productdeleteBtn) {
+  productdeleteBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    confirm("are you sure to delete this product")
+    const productid = productdeleteBtn.dataset.productid
+    deleteProduct(productid);
   });
 }
 if (blogCreate) {

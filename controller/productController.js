@@ -84,8 +84,6 @@ exports.getAllproduct = catchAsync(async (req, res, next) => {
   console.log("a called");
 
   const products = await features.query;
-  console.log(products);
-
   const number = products.length;
   // res.status(200).render("products",{products,number})
   res.status(200).json({
@@ -105,7 +103,6 @@ exports.getOneproduct = catchAsync(async (req, res, next) => {
 // update food------------------------------------------------------------------
 exports.updateproduct = catchAsync(async (req, res, next) => {
   const productId = req.params.productId;
-  
   await Product.findByIdAndUpdate(productId, req.body);
   res.status(200).json({
     status: "success",

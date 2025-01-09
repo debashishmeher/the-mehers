@@ -16,6 +16,11 @@ const cartSchema = new mongoose.Schema({
   addedAt:{
     type:Date,
     default:Date.now()
+  },
+  status:{
+    type:String,
+    enum:["cart","ordered","delivered"],
+    default:"cart"
   }
 });
 

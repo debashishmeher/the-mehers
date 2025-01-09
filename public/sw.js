@@ -2,9 +2,9 @@ console.log("sw....");
 self.addEventListener("push",e=>{
     const data=e.data.json();
     self.registration.showNotification(data.title,{
-        body:"notify by dev ...",
-        icon: 'http://localhost:5000/image/logo.png',
-        badge: 'http://localhost:5000/image/salad%20plate.png',
+        body:data.body,
+        icon: 'https://themehers.in/image/logo.png',
+        badge: 'https://themehers.in/image/logo.png',
     })
 })
 self.addEventListener('notificationclick', function(event) {

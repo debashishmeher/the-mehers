@@ -16,7 +16,8 @@ webPush.setVapidDetails(
 exports.createNotification = catchAsync(async (req, res) => {
   const suscription = req.body;
   const user = req.user;
-
+  console.log(suscription);
+  
   const usernotification = await Notification.findOne({ user: user.id });
   if (usernotification) {
     usernotification.notification = suscription;
@@ -27,7 +28,9 @@ exports.createNotification = catchAsync(async (req, res) => {
       notification: suscription,
       role: user.role,
     });
-    await notification.save();
+    const notify=await notification.save();
+    console.log(notify);
+    
   }
   res.status(201).json({
     status: "success",

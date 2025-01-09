@@ -63,16 +63,13 @@ exports.createProduct = async (formdata) => {
     }
   };
 exports.editProduct = async (productid,formdata) => {
-    
+    console.log(formdata);
     try {
       const res = await axios({
         method: "PATCH",
         url: `https://themehers.in/product/${productid}`,
-        data: formdata,
-        httpOnly: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        }
+        data:formdata,
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
       });
   
       if (res.data.status === "success") {
@@ -80,10 +77,32 @@ exports.editProduct = async (productid,formdata) => {
         window.setTimeout(() => {
           location.assign(`/admin/product/${productid}`);
         }, 1000);
+        console.log(res.data);
+        
       }
     } catch (err) {
       showAlert("err", err.response.data.message);
       console.log(err.response);
+    }
+  };
+
+exports.deleteProduct = async (productid) => {
+
+    try {
+      const res = await axios({
+        method: "DELETE",
+        url: `https://themehers.in/product/${productid}`
+      });
+  
+      if (res.data.status === "success") {
+        showAlert("success", res.data.message);
+        window.setTimeout(() => {
+          location.assign(`/admin/product`);
+        }, 1000);
+        
+      }
+    } catch (err) {
+      showAlert("err", err.response.data.message);
     }
   };
 
@@ -113,9 +132,7 @@ exports.createBlogs = async (formdata) => {
     }
   };
 
-exports.editBlogs = async (blogsid,formdata) => {
-    console.log(blogsid);
-    
+exports.editBlogs = async (blogsid,formdata) => {  
     try {
       const res = await axios({
         method: "PATCH",

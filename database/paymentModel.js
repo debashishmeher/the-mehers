@@ -10,6 +10,10 @@ const paymentSchema = mongoose.Schema({
     type: Number,
     required: [true, "payment amount must be required"],
   },
+  order: {
+    type: String,
+    required: [true, "order must be required"],
+  },
   paymentId: {
     type: String,
     required: [true, "payment id must be required"],

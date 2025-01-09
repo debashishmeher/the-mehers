@@ -5,6 +5,7 @@ const Order = require("../database/orderModel");
 const Cart = require("../database/cartModel");
 const Blog = require("../database/blogsModel");
 const APIFeatures = require("../utility/APIFeatures");
+const Payment = require("../database/paymentModel");
 
 // controller functions----------------------
 exports.home = catchAsync(async (req, res, next) => {
@@ -31,7 +32,7 @@ exports.product = catchAsync(async (req, res, next) => {
     .sort()
     .limitFields()
     .pagination();
-  const { page = 1, limit = 10 } = req.query;
+  const { page = 1, limit = 1000 } = req.query;
   const queryStr = req.query
   const count = await Product.countDocuments();
   console.log("a called", features.queryString);
@@ -88,7 +89,7 @@ exports.admin = catchAsync(async (req, res, next) => {
   res.status(200).render("admin");
 });
 exports.adminproduct = catchAsync(async (req, res, next) => {
-  const products = await Product.find().limit(10);
+  const products = await Product.find().limit(1000);
   res.status(200).render("adminproduct", { products });
 });
 exports.adminproductcreate = catchAsync(async (req, res, next) => {
@@ -102,9 +103,15 @@ exports.adminorder = catchAsync(async (req, res, next) => {
   const orders = await Order.find({
     status: { $ne: "delivered" },
   }).populate("product.productId");
-  console.log(orders);
 
   res.status(200).render("adminorder", { orders });
+});
+exports.adminuserorder = catchAsync(async (req, res, next) => {
+  const orderid=req.params.orderId;
+  const order= await Order.findById(orderid)
+  const payment=await Payment.findOne({order:order.id})
+  console.log(order);
+  res.status(200).render("adminseeorder", { order,payment });
 });
 exports.adminfinance = catchAsync(async (req, res, next) => {
   res.status(200).render("adminfinance");

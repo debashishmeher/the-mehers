@@ -75,12 +75,12 @@ exports.login = async (email, password) => {
         console.log(res.data.user);
         window.setTimeout(() => {
           location.assign("/admin");
-        }, 500);
+        }, 50000);
       }
       else{
       window.setTimeout(() => {
         location.assign("/");
-      }, 500);
+      }, 50000);
       }
     }
 

@@ -12,7 +12,7 @@ exports.addItem = catchAsync(async (req, res, next) => {
     return next(new AppError("quantity is not valid", 404));
   }
 
-  const product = await Cart.find({ user: req.user.id });
+  const product = await Cart.find({ user: req.user.id, status:"cart" });
   let isitem = true;
   product.forEach((el) => {
     if (el.product.id == req.body.product) {
@@ -33,7 +33,7 @@ exports.addItem = catchAsync(async (req, res, next) => {
 // getting all cart items------------------------------------
 exports.getUserItems = catchAsync(async (req, res, next) => {
   const userId = req.user.id;
-  const items = await Cart.find({ user: userId });
+  const items = await Cart.find({ user: userId, status:"cart" });
   console.log(items);
   let total = 0;
   let discount = 0;
@@ -58,7 +58,7 @@ exports.getUserItems = catchAsync(async (req, res, next) => {
 });
 exports.getUsercheckout = catchAsync(async (req, res, next) => {
   const userId = req.user.id;
-  const items = await Cart.find({ user: userId });
+  const items = await Cart.find({ user: userId, status:"cart" });
   const address = await Address.find({ user: userId });
   let total = 0;
   let discount = 0;

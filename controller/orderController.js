@@ -20,7 +20,7 @@ exports.checkout = async (req, res) => {
   const address = req.body.address;
   try {
     const user = req.user;
-    const items = await Cart.find({ user: req.user.id });
+    const items = await Cart.find({ user: req.user.id, status:"cart" });
     let total = 0;
     let sipping = 40;
 
@@ -38,9 +38,7 @@ exports.checkout = async (req, res) => {
     } else {
       total = total + sipping;
     }
-
-    console.log(user, total, address);
-
+    total = Math.round(total)
     const order = await razorpay.orders.create({
       amount: total * 100,
       currency: "INR",
@@ -85,8 +83,9 @@ exports.paymentVerification = catchAsync(async (req, res, next) => {
 
 exports.createOrder = catchAsync(async (req, res, next) => {
   if (!req.body.user) req.body.user = req.user.id;
-  const products = await Cart.find({ user: req.user.id });
+  const products = await Cart.find({ user: req.user.id, status:"cart" });
   const { address } = req.query;
+  
   let userpayment;
   if (products.length <= 0) {
     return next(new AppError("your cart is empty", 404));
@@ -100,19 +99,20 @@ exports.createOrder = catchAsync(async (req, res, next) => {
         el.quantity;
       price += productPrice;
       const product=await Product.findById(el.product.id)
-      console.log(product);
-      
       product.quantity = product.quantity * 1 - el.quantity
       await product.save()
       productids.push(el.id);
     }
-    req.body.price = price;
-    req.body.product = productids;
+    req.body.price = Math.round(price);
+    req.body.product = products;
     req.body.address = address;
     const order = await Order.create(req.body);
+    console.log(order);
+    
     if (order) {
       userpayment = new Payment({
         user: req.user.id,
+        order:order.id,
         paymentId: req.body.razorpay_payment_id,
         orderId: req.body.razorpay_order_id,
         amount: req.body.price,
@@ -120,15 +120,16 @@ exports.createOrder = catchAsync(async (req, res, next) => {
       });
 
       await userpayment.save();
-      await Cart.deleteMany({ user: req.user.id });
+      await Cart.updateMany( { user: req.user.id, status: "cart" }, { $set: { status: "ordered" } } );
       
     }
-
+    
     res.status(201).render("orderSuccess", { order,userpayment });
     const notify = await Notification.find({ user: req.user.id });
     const payload = JSON.stringify({
-      title: "order confirmed",
+      title: "you have an order",
       url: "https://themehers.in/",
+      body:`Name- ${req.user.name}, address- ${order.address}, price- ${order.price}/-`
     });
     for (let i = 0; i < notify.length; i++) {
       const el = notify[i];

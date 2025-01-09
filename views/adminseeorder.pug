@@ -1,0 +1,39 @@
+extend admin 
+
+block admincontent
+    .order-box 
+        .order-details 
+            .user-info 
+                img.user-image(src=`/./image/user/${order.user.photo}`, alt="")
+                .user-mane 
+                    p.name=order.user.name 
+                    p.email=order.user.email
+                    p.addrerss=order.address
+            .user-payments 
+                if(payment)
+                    table 
+                        tr 
+                            th payment id: 
+                            td=payment.paymentId
+                        tr 
+                            th order id: 
+                            td=payment.orderId
+                        tr 
+                            th amount: 
+                            td=payment.amount
+                        tr 
+                            th status: 
+                            td=payment.status
+        .order-products 
+            each product of order.product
+                .order-product-box 
+                    .product-info 
+                        img.user-image(src=`/./image/product/${product.product.mainphoto}`, alt="")
+                        .additional
+                            p.product-name=product.product.name
+                            p.produc-code=product.product.code
+                    p.product-qun=product.quantity
+                    p.total-price=`${product.quantity*product.product.price}/-`
+            .order-total
+                p.total total price
+                p.total-num=`${order.price}/-`
