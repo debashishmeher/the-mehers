@@ -11,7 +11,6 @@ function sideToggle() {
   sideSpan.forEach((el) => {
     el.classList.toggle("side-active");
   });
-
 }
 
 // let quarylocation = window.location.href.split("?")[1]

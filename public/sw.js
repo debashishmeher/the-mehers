@@ -6,6 +6,9 @@ self.addEventListener("push",e=>{
         icon: 'http://localhost:5000/image/logo.png',
         badge: 'http://localhost:5000/image/salad%20plate.png',
     })
+    console.log("push event received", data);
+    console.log("title", data.title);
+    
 })
 self.addEventListener('notificationclick', function(event) {
     // const data = event.data.json()

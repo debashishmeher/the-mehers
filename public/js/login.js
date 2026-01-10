@@ -24,7 +24,7 @@ exports.login = async (email, password) => {
   try {
     const res = await axios({
       method: "POST",
-      url: "https://themehers.in/login",
+      url: `${process.env.URL}/login`,
       data: {
         email,
         password,
