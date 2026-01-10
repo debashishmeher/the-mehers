@@ -1,2 +1,4 @@
 node_modules/
+public/image/blogs/
+public/image/product/
 *.env
