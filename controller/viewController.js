@@ -37,7 +37,7 @@ exports.product = catchAsync(async (req, res, next) => {
   console.log("a called", features.queryString);
   const products = await features.query;
   console.log(Math.ceil(count / limit));
-  
+
   res.status(200).render("product", {
     products,
     totalPages: Math.ceil(count / limit),
@@ -138,3 +138,10 @@ exports.me = catchAsync(async (req, res, next) => {
 });
 
 // public----------------------------
+exports.demo = catchAsync(async (req, res, next) => {
+  res.status(200).render("adminseeorders.pug")
+})
+
+exports.luckydraw = catchAsync(async (req, res, next) => {
+  res.redirect(301, "https://www.youtube.com/live/XB1h-ftr8zk?si=gmJk2bLa-QVF6wA1");
+})

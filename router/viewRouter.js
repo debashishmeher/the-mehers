@@ -6,6 +6,7 @@ const authControl = require("../controller/authController");
 Router.use(authControl.isLogin)
 
 Router.get("/", authControl.isLogin, viewController.home)
+Router.get("/events/lucky-draw", viewController.luckydraw)
 Router.get("/shop", viewController.product)
 // Router.get("/shop/:catagory",viewController.product)
 Router.get("/product/:productId", viewController.item)
@@ -28,5 +29,8 @@ Router.get("/admin/blogs", authControl.protect, authControl.accessTo("admin"), v
 Router.get("/admin/blogs/create", authControl.protect, authControl.accessTo("admin"), viewController.adminblogscreate)
 Router.get("/admin/enquery", authControl.protect, authControl.accessTo("admin"), viewController.adminenquary)
 Router.get("/enquary/:enquaryId/schedule", authControl.protect, authControl.accessTo("admin"), viewController.scheduleform)
+
+
+Router.get("/demo", viewController.demo)
 
 module.exports = Router;
