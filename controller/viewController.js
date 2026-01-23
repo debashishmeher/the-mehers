@@ -143,5 +143,5 @@ exports.demo = catchAsync(async (req, res, next) => {
 })
 
 exports.luckydraw = catchAsync(async (req, res, next) => {
-  res.redirect(301, "https://www.youtube.com/live/XB1h-ftr8zk?si=gmJk2bLa-QVF6wA1");
+  res.redirect(301, "https://youtube.com/live/Wge5_J_YoJU?feature=share");
 })

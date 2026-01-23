@@ -6,7 +6,7 @@ const authControl = require("../controller/authController");
 Router.use(authControl.isLogin)
 
 Router.get("/", authControl.isLogin, viewController.home)
-// Router.get("/events/lucky-draw", viewController.luckydraw)
+Router.get("/events/lucky-draw", viewController.luckydraw)
 Router.get("/shop", viewController.product)
 // Router.get("/shop/:catagory",viewController.product)
 Router.get("/product/:productId", viewController.item)
