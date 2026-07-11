@@ -4,10 +4,15 @@ const validator = require("validator");
 
 const OrderSchema = new mongoose.Schema({
   product: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Cart",
-    required: [true, "product must be required required"],
-  
+    product: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+      required: [true, "product must be required"],
+    },
+    quantity: {
+      type: Number,
+      default: 1,
+    }
   }],
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -62,7 +67,7 @@ OrderSchema.pre(/^find/, function (next) {
 });
 OrderSchema.pre(/^find/, function (next) {
   this.populate({
-    path: "product",
+    path: "product.product",
   });
   next();
 });

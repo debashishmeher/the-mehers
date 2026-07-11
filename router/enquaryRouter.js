@@ -4,7 +4,14 @@ const authController = require("../controller/authController");
 const enquaryController = require("../controller/enquaryController");
 const scheduleController = require("../controller/scheduleController");
 
-Router.route("/").post(enquaryController.createEnquary);
+Router.route("/")
+  .post(enquaryController.createEnquary)
+  .get(
+    authController.protect,
+    authController.accessTo("admin"),
+    enquaryController.getAllEnquiry
+  );
+
 
 Router.route("/:enquaryId")
   .get(enquaryController.getOneEnquary)

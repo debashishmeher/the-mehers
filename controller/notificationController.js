@@ -1,7 +1,7 @@
 const webPush = require("web-push");
 const Notification = require("../database/notificationModel.js");
-const catchAsync = require("../utility/catchAsync.js");
-const AppError = require("../utility/AppError.js");
+const catchAsync = require("../utils/catchAsync.js");
+const AppError = require("../utils/AppError.js");
 
 const publicVapidKey =
   "BO64nFLjYDrOH1GvwXftIEEroUpihOost6Rcutdw1O-rqTDIFgS2sZwNTApxSAYFZ_JaIeS2Ul75qXhuhhzq3ao";

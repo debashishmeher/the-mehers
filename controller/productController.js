@@ -1,23 +1,52 @@
-const Product = require("../database/productModel");
-const catchAsync = require("../utility/catchAsync");
 const multer = require("multer");
 const sharp = require("sharp");
-const Review = require("../database/reviewModel");
-const Cart = require("../database/cartModel");
-const APIFeatures = require("../utility/APIFeatures");
 
-// multer configuration------------------------------
+const Cart = require("../database/cartModel");
+const Product = require("../database/productModel");
+const Review = require("../database/reviewModel");
+const APIFeatures = require("../utils/APIFeatures");
+const AppError = require("../utils/AppError");
+const catchAsync = require("../utils/catchAsync");
+
+const buildProductFilters = (query) => {
+  const queryObj = { ...query };
+  const excludedFields = ["page", "sort", "limit", "fields", "search"];
+
+  excludedFields.forEach((field) => delete queryObj[field]);
+
+  if (queryObj.category && !queryObj.catagory) {
+    queryObj.catagory = queryObj.category;
+  }
+
+  delete queryObj.category;
+
+  if (query.search?.trim()) {
+    const searchRegex = { $regex: query.search.trim(), $options: "i" };
+    queryObj.$or = [
+      { name: searchRegex },
+      { code: searchRegex },
+      { catagory: searchRegex },
+    ];
+  }
+
+  const queryStr = JSON.stringify(queryObj).replace(
+    /\b(gt|gte|lt|lte)\b/g,
+    (match) => `$${match}`
+  );
+
+  return JSON.parse(queryStr);
+};
 
 const multerstorage = multer.memoryStorage();
+
 const multerfilter = (req, file, cb) => {
-  console.log(file);
-  
   if (file.mimetype.startsWith("image")) {
     cb(null, true);
   } else {
-    cb(new AppError("not an image! please check.", 400), false);
+    cb(new AppError("not an image, please upload only image files", 400), false);
   }
 };
+
 const upload = multer({
   storage: multerstorage,
   fileFilter: multerfilter,
@@ -29,120 +58,158 @@ exports.photo = upload.fields([
 ]);
 
 exports.processimgmainphoto = catchAsync(async (req, res, next) => {
-  console.log("processing main image");
-  console.log("starting", req.files.mainphoto, req.files.photo);
-  console.log(req.files);
-  
-  
-  if (req.files.mainphoto) {
-    req.body.mainphoto = `main-${Date.now()}.jpeg`;
-    console.log(req.body.mainphoto);
+  if (!req.files) {
+    return next();
+  }
+
+  const baseUrl = process.env.URL ? (process.env.URL.endsWith("/") ? process.env.URL : `${process.env.URL}/`) : "http://localhost:8000/";
+
+  if (req.files.mainphoto?.length) {
+    const filename = `main-${Date.now()}.jpeg`;
+
     await sharp(req.files.mainphoto[0].buffer)
       .resize(500, 625)
       .toFormat("jpeg")
       .jpeg({ quality: 90 })
-      .toFile(`./public/image/product/${req.body.mainphoto}`);
-    console.log("process finish");
+      .toFile(`./public/image/product/${filename}`);
+
+    req.body.mainphoto = `${baseUrl}image/product/${filename}`;
   }
-  if(req.files.photo){
-    const photoName=[]
-    for (let i = 0; i < req.files.photo.length; i++) {
-        const el = req.files.photo[i];
-        const name=`product-photo-${i}-${Date.now()}.jpeg`
-        await sharp(el.buffer)
-            .resize(500, 625)
-            .toFormat("jpeg")
-            .jpeg({quality:90}).toFile(`./public/image/product//${name}`)
-        console.log("phote created",i);
-        photoName.push(name)
+
+  if (req.files.photo?.length) {
+    const photoNames = [];
+
+    for (let i = 0; i < req.files.photo.length; i += 1) {
+      const file = req.files.photo[i];
+      const fileName = `product-photo-${i}-${Date.now()}.jpeg`;
+
+      await sharp(file.buffer)
+        .resize(500, 625)
+        .toFormat("jpeg")
+        .jpeg({ quality: 90 })
+        .toFile(`./public/image/product/${fileName}`);
+
+      photoNames.push(`${baseUrl}image/product/${fileName}`);
     }
-    req.body.photo=photoName
+
+    req.body.photo = photoNames;
   }
 
   next();
 });
 
-// create product------------------------------------------------------------------
-exports.createproduct = catchAsync(async (req, res, next) => {
-  console.log(req.body);
-  
+exports.createproduct = catchAsync(async (req, res) => {
   const product = await Product.create(req.body);
+
   res.status(201).json({
     status: "success",
-    message: "item create successful",
-    product,
+    message: "product created successfully",
+    data: {
+      product,
+    },
   });
 });
 
-// get all products------------------------------------------------------------------
-exports.getAllproduct = catchAsync(async (req, res, next) => {
-  const features = new APIFeatures(Product.find(), req.query)
-    .filter()
+exports.getAllproduct = catchAsync(async (req, res) => {
+  const filters = buildProductFilters(req.query);
+  const totalProducts = await Product.countDocuments(filters);
+  const currentPage = Number.parseInt(req.query.page, 10) || 1;
+  const itemsPerPage = Number.parseInt(req.query.limit, 10) || 10;
+  const totalPages = Math.ceil(totalProducts / itemsPerPage) || 1;
+
+  const features = new APIFeatures(Product.find(filters), req.query)
     .sort()
     .limitFields()
     .pagination();
-  console.log("a called");
 
   const products = await features.query;
-  console.log(products);
 
-  const number = products.length;
-  // res.status(200).render("products",{products,number})
   res.status(200).json({
     status: "success",
-    products,
-    number,
+    data: {
+      products,
+      totalProducts,
+      totalPages,
+      currentPage,
+      itemsPerPage,
+      hasNextPage: currentPage < totalPages,
+      hasPreviousPage: currentPage > 1,
+    },
   });
 });
 
-// get one food---------------------------------------------------------
-exports.getOneproduct = catchAsync(async (req, res, next) => {
-  const productId = req.params.productId;
-  const product = await Product.findById(productId).populate("reviews");
-  res.status(200).render("product", { product });
-});
+exports.getOneproduct = catchAsync(async (req, res) => {
+  const product = await Product.findById(req.params.productId).populate("reviews");
 
-// update food------------------------------------------------------------------
-exports.updateproduct = catchAsync(async (req, res, next) => {
-  const productId = req.params.productId;
-  await Product.findByIdAndUpdate(productId, req.body);
   res.status(200).json({
     status: "success",
-    message: "product update successful",
+    data: {
+      product,
+    },
   });
 });
 
-// delete food----------------------------------------------------------------
-exports.deleteproduct = catchAsync(async (req, res, next) => {
+exports.updateproduct = catchAsync(async (req, res) => {
+  const product = await Product.findByIdAndUpdate(req.params.productId, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(200).json({
+    status: "success",
+    message: "product updated successfully",
+    data: {
+      product,
+    },
+  });
+});
+
+exports.deleteproduct = catchAsync(async (req, res) => {
   const productId = req.params.productId;
-  await Product.findByIdAndDelete(productId);
+  const product = await Product.findByIdAndDelete(productId);
   await Cart.deleteMany({ product: productId });
 
   res.status(200).json({
     status: "success",
-    message: "Product has been deleted",
+    message: "product deleted successfully",
+    data: {
+      product,
+    },
   });
 });
 
-// review-controller-------------------------------------------
-exports.createReview = catchAsync(async (req, res, next) => {
-  if (!req.body.user) req.body.user = req.user.id;
-  if (!req.body.product) req.body.food = req.params.productId;
+exports.createReview = catchAsync(async (req, res) => {
+  if (!req.body.user) {
+    req.body.user = req.user.id;
+  }
+
+  if (!req.body.product) {
+    req.body.product = req.params.productId;
+  }
+
   const review = await Review.create(req.body);
 
   res.status(201).json({
     status: "success",
-    message: "review post successfully",
-    review,
+    message: "review created successfully",
+    data: {
+      review,
+    },
   });
 });
 
-exports.editReview = catchAsync(async (req, res, next) => {
-  const reviewId = req.params.reviewId;
-  const review = await Review.findByIdAndUpdate(reviewId, req.body);
+exports.editReview = catchAsync(async (req, res) => {
+  const reviewId = req.params.reviewId || req.params.id;
+  const review = await Review.findByIdAndUpdate(reviewId, req.body, {
+    new: true,
+    runValidators: true,
+  });
 
-  res.status(201).json({
+  res.status(200).json({
     status: "success",
-    message: "review update successfully",
+    message: "review updated successfully",
+    data: {
+      review,
+    },
   });
 });

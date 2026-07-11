@@ -1,112 +1,129 @@
-const Cart = require("../database/cartModel");
-const catchAsync = require("../utility/catchAsync");
-const AppError = require("../utility/AppError");
 const Address = require("../database/addressModel");
+const Cart = require("../database/cartModel");
+const AppError = require("../utils/AppError");
+const catchAsync = require("../utils/catchAsync");
 
-// adding items in cart----------------------
-exports.addItem = catchAsync(async (req, res, next) => {
-  if (!req.body.user) req.body.user = req.user.id;
-  if (!req.body.product) req.body.product = req.params.productId;
-  const quan = req.body.quantity;
-  if (quan < 1 || quan > 5) {
-    return next(new AppError("quantity is not valid", 404));
-  }
+const calculateCartSummary = (items) => {
+  let total = 0;
+  let discount = 0;
+  let shipping = 40;
 
-  const product = await Cart.find({ user: req.user.id });
-  let isitem = true;
-  product.forEach((el) => {
-    if (el.product.id == req.body.product) {
-      isitem = false;
-      return next(new AppError("atem already in your cart", 404));
+  items.forEach((item) => {
+    if (!item.product) {
+      return;
     }
+
+    const discountedPrice =
+      item.product.price - (item.product.price * item.product.discount) / 100;
+
+    total += discountedPrice * item.quantity;
+    discount += ((item.product.price * item.product.discount) / 100) * item.quantity;
   });
-  if (isitem) {
-    await Cart.create(req.body);
+
+  if (total >= 5000) {
+    shipping = 0;
   }
+
+  return {
+    total,
+    discount,
+    shipping,
+  };
+};
+
+exports.addItem = catchAsync(async (req, res, next) => {
+  const quantity = Number(req.body.quantity || 1);
+  const productId = req.body.product || req.params.productId;
+
+  if (quantity < 1 || quantity > 5) {
+    return next(new AppError("quantity is not valid", 400));
+  }
+
+  const existingItem = await Cart.findOne({
+    user: req.user.id,
+    product: productId,
+  });
+
+  if (existingItem) {
+    return next(new AppError("item already exists in your cart", 409));
+  }
+
+  const item = await Cart.create({
+    ...req.body,
+    quantity,
+    product: productId,
+    user: req.user.id,
+  });
+
   res.status(201).json({
     status: "success",
-    message: "item added to cart",
-    // item
+    message: "item added to cart successfully",
+    data: {
+      item,
+    },
   });
 });
 
-// getting all cart items------------------------------------
-exports.getUserItems = catchAsync(async (req, res, next) => {
-  const userId = req.user.id;
-  const items = await Cart.find({ user: userId });
-  console.log(items);
-  let total = 0;
-  let discount = 0;
-  let sipping = 40;
+exports.getUserItems = catchAsync(async (req, res) => {
+  const items = await Cart.find({ user: req.user.id });
+  const summary = calculateCartSummary(items);
 
-  for (let i = 0; i < items.length; i++) {
-    const el = items[i];
-    if (el.product) {
-      total =
-        total +
-        (el.product.price - (el.product.price * el.product.discount) / 100) *
-          el.quantity;
-      discount =
-        discount +
-        ((el.product.price * el.product.discount) / 100) * el.quantity;
-    }
-  }
-  if (total >= 5000) {
-    sipping = 0;
-  }
-  res.status(200).render("cart", { items, total, discount, sipping });
-});
-exports.getUsercheckout = catchAsync(async (req, res, next) => {
-  const userId = req.user.id;
-  const items = await Cart.find({ user: userId });
-  const address = await Address.find({ user: userId });
-  let total = 0;
-  let discount = 0;
-  let sipping = 40;
-
-  for (let i = 0; i < items.length; i++) {
-    const el = items[i];
-    if (el.product) {
-      total =
-        total +
-        (el.product.price - (el.product.price * el.product.discount) / 100) *
-          el.quantity;
-      discount =
-        discount +
-        ((el.product.price * el.product.discount) / 100) * el.quantity;
-    }
-  }
-  if (total >= 5000) {
-    sipping = 0;
-  }
-  res
-    .status(200)
-    .render("checkout", { items, address, total, discount, sipping });
+  res.status(200).json({
+    status: "success",
+    data: {
+      items,
+      ...summary,
+    },
+  });
 });
 
-// update item quantity-------------------------------
+exports.getUsercheckout = catchAsync(async (req, res) => {
+  const [items, address] = await Promise.all([
+    Cart.find({ user: req.user.id }),
+    Address.find({ user: req.user.id }),
+  ]);
+
+  const summary = calculateCartSummary(items);
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      items,
+      address,
+      ...summary,
+    },
+  });
+});
+
 exports.updateUserItems = catchAsync(async (req, res, next) => {
-  const itemId = req.params.itemId;
-  const items = await Cart.findById(itemId);
-  items.quantity = req.body.quantity;
-  if (items.quantity < 1 || items.quantity > 5) {
-    return next(new AppError("quantity is not valid", 404));
+  const item = await Cart.findById(req.params.itemId);
+
+  if (!item) {
+    return next(new AppError("cart item not found", 404));
   }
-  await items.save();
+
+  item.quantity = Number(req.body.quantity);
+
+  if (item.quantity < 1 || item.quantity > 5) {
+    return next(new AppError("quantity is not valid", 400));
+  }
+
+  await item.save();
+
   res.status(200).json({
     status: "success",
-    message: "quantaty update successful",
-    items,
+    message: "cart quantity updated successfully",
+    data: {
+      item,
+    },
   });
 });
 
-// delete cart items --------------------------------
-exports.deleteUserItems = catchAsync(async (req, res, next) => {
-  const itemId = req.params.itemId;
-  await Cart.findByIdAndDelete(itemId);
+exports.deleteUserItems = catchAsync(async (req, res) => {
+  await Cart.findByIdAndDelete(req.params.itemId);
 
   res.status(200).json({
     status: "success",
-    message: "quantaty deleted successful",
+    message: "cart item deleted successfully",
   });
 });

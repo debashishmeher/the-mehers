@@ -1,5 +1,5 @@
 const Food = require("../database/foodModel");
-const catchAsync = require("../utility/catchAsync");
+const catchAsync = require("../utils/catchAsync");
 
 const Razorpay = require("razorpay");
 
