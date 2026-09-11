@@ -1,10 +1,21 @@
 const Address = require("../database/addressModel");
 const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/AppError");
 
-exports.createAddress = catchAsync(async (req, res) => {
+const getUserId = (req) => req.user?.id || req.user?._id || req.auth;
+
+exports.createAddress = catchAsync(async (req, res, next) => {
+  const userId = getUserId(req);
+  if (!userId) return next(new AppError("Unauthorized", 401));
+
+  const count = await Address.countDocuments({ user: userId });
+  if (count >= 5) {
+    return next(new AppError("You can only save up to 5 addresses.", 400));
+  }
+
   const address = await Address.create({
     ...req.body,
-    user: req.user.id,
+    user: userId,
   });
 
   res.status(201).json({
@@ -16,8 +27,11 @@ exports.createAddress = catchAsync(async (req, res) => {
   });
 });
 
-exports.getUserAddress = catchAsync(async (req, res) => {
-  const addresses = await Address.find({ user: req.user.id });
+exports.getUserAddress = catchAsync(async (req, res, next) => {
+  const userId = getUserId(req);
+  if (!userId) return next(new AppError("Unauthorized", 401));
+
+  const addresses = await Address.find({ user: userId });
 
   res.status(200).json({
     status: "success",
@@ -28,11 +42,22 @@ exports.getUserAddress = catchAsync(async (req, res) => {
   });
 });
 
-exports.updateUserAddress = catchAsync(async (req, res) => {
-  const address = await Address.findOneAndUpdate({ user: req.user.id }, req.body, {
-    new: true,
-    runValidators: true,
-  });
+exports.updateUserAddress = catchAsync(async (req, res, next) => {
+  const userId = getUserId(req);
+  if (!userId) return next(new AppError("Unauthorized", 401));
+
+  const address = await Address.findOneAndUpdate(
+    { _id: req.params.id, user: userId },
+    req.body,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  if (!address) {
+    return next(new AppError("No address found with that ID", 404));
+  }
 
   res.status(200).json({
     status: "success",
@@ -43,8 +68,15 @@ exports.updateUserAddress = catchAsync(async (req, res) => {
   });
 });
 
-exports.deleteUserAddress = catchAsync(async (req, res) => {
-  await Address.findOneAndDelete({ user: req.user.id });
+exports.deleteUserAddress = catchAsync(async (req, res, next) => {
+  const userId = getUserId(req);
+  if (!userId) return next(new AppError("Unauthorized", 401));
+
+  const address = await Address.findOneAndDelete({ _id: req.params.id, user: userId });
+
+  if (!address) {
+    return next(new AppError("No address found with that ID", 404));
+  }
 
   res.status(200).json({
     status: "success",

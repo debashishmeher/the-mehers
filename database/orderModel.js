@@ -16,11 +16,14 @@ const OrderSchema = new mongoose.Schema({
   }],
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Auth",
     required: [true, "user must be required required"],
   },
   address: {
     type: "string",
+  },
+  razorpayOrderId: {
+    type: String,
   },
   price: {
     type: String,
@@ -34,13 +37,13 @@ const OrderSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["ordered", "initiate", "on-way", "delivered"],
-    default: "ordered",
+    enum: ["unpaid", "paid", "ordered", "initiate", "on-way", "delivered", "cancelled"],
+    default: "unpaid",
   },
   payType: {
     type: String,
     enum: ["offline", "online"],
-    default: "offline",
+    default: "online",
   },
   phone: {
     type: Number,
@@ -51,6 +54,14 @@ const OrderSchema = new mongoose.Schema({
       },
       message: (val) => `${val.value} has to be 10 digits`,
     },
+  },
+  trackingCode: {
+    type: String,
+    default: "",
+  },
+  trackingLink: {
+    type: String,
+    default: "",
   },
   createdAt: {
     type: Date,

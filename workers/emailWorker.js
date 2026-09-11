@@ -1,8 +1,12 @@
+const path = require("path");
+const dotenv = require("dotenv");
+dotenv.config({ path: path.join(__dirname, "../config.env") });
+
 const { Worker } = require("bullmq");
 const IORedis = require("ioredis");
-const { sendOtpEmail } = require("../utils/email");
+const { sendOtpEmail, sendWelcomeEmail } = require("../utils/email");
 
-const redisUrl = process.env.REDIS_URL || "redis://localhost:6379";
+const redisUrl = process.env.REDIS_URL || "redis://localhost:6379/1";
 
 const connection = new IORedis(redisUrl, {
     maxRetriesPerRequest: null,
@@ -11,8 +15,6 @@ const connection = new IORedis(redisUrl, {
 const worker = new Worker(
     "emailQueue",
     async (job) => {
-        console.log("Processing email job:", job.name, job.id);
-
         const { type, payload } = job.data;
 
         if (type === "OTP") {
@@ -20,21 +22,15 @@ const worker = new Worker(
         }
 
         if (type === "WELCOME") {
-            // await sendWelcomeEmail(payload.user);
+            await sendWelcomeEmail(payload.user);
         }
-
-        console.log("Email sent:", type);
     },
     { connection }
 );
 
-worker.on("ready", () => {
-    console.log("Email worker ready and waiting for jobs...");
-});
+worker.on("ready", () => {});
 
-worker.on("completed", (job) => {
-    console.log("Job completed:", job.id);
-});
+worker.on("completed", () => {});
 
 worker.on("failed", (job, err) => {
     console.error("Job failed:", job.id, err.message);

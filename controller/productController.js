@@ -1,7 +1,6 @@
 const multer = require("multer");
 const sharp = require("sharp");
 
-const Cart = require("../database/cartModel");
 const Product = require("../database/productModel");
 const Review = require("../database/reviewModel");
 const APIFeatures = require("../utils/APIFeatures");
@@ -167,7 +166,6 @@ exports.updateproduct = catchAsync(async (req, res) => {
 exports.deleteproduct = catchAsync(async (req, res) => {
   const productId = req.params.productId;
   const product = await Product.findByIdAndDelete(productId);
-  await Cart.deleteMany({ product: productId });
 
   res.status(200).json({
     status: "success",

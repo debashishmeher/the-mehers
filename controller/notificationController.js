@@ -40,16 +40,11 @@ exports.sendNotificaṭion = (notifydata) => {
     const user = req.user.id;
     const payload = JSON.stringify(notifydata);
     const adminNotify = await Notification.findOne({ role: "admin" });
-    webPush.sendNotification(adminNotify.notification, payload).catch((err) => {
-      console.log(err);
-    });
+    webPush.sendNotification(adminNotify.notification, payload).catch(() => {});
     const notify = await Notification.find({ user: user });
     for (let i = 0; i < notify.length; i++) {
       const el = notify[i];
-      webPush.sendNotification(el.notification, payload).catch((err) => {
-        console.log(err);
-      });
+      webPush.sendNotification(el.notification, payload).catch(() => {});
     }
-    console.log("notify", notify);
   });
 };

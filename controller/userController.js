@@ -1,26 +1,27 @@
 const User = require("../database/userModel.js");
-
+const authController = require("./authController.js");
 const catchAsync = require("../utils/catchAsync.js");
 const { sanitize } = require("../utils/sanitizeData.js");
 const AppError = require("../utils/AppError.js");
-const Enquary = require("../database/enquaryModel.js");
+const Auth = require("../database/authModel.js");
+const RefreshToken = require("../database/refreshTokenModel.js");
 const crypto = require("crypto");
 const multer = require("multer");
 const sharp = require("sharp");
 const path = require("path");
 const fs = require("fs");
+const { delCache } = require("../utils/cache.js");
+const emailQueue = require("../queues/emailQueue.js");
 
-// Helper function to delete old user photo from storage
 const deleteOldPhoto = (photoPath) => {
   if (!photoPath) return;
-  if (photoPath.startsWith("/Image/")) {
-    const filename = photoPath.replace("/Image/", "");
+  let filename = "";
+  if (photoPath.includes("/Image/")) {
+    filename = photoPath.substring(photoPath.indexOf("/Image/") + 7);
+  }
+  if (filename) {
     const fullPath = path.join(__dirname, "../Image", filename);
-    fs.unlink(fullPath, (err) => {
-      if (err) {
-        console.log(`Failed to delete old photo at ${fullPath}:`, err.message);
-      }
-    });
+    fs.unlink(fullPath, () => {});
   }
 };
 
@@ -66,19 +67,105 @@ exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
     .toFile(filePath);
 
   // Set the photo file route path on req.body for DB operations
-  const baseUrl = process.env.URL ? (process.env.URL.endsWith("/") ? process.env.URL : `${process.env.URL}/`) : "http://localhost:8000/";
-  req.body.photo = `${baseUrl}Image/${filename}`;
+  req.body.photo = `${process.env.API_URL}/Image/${filename}`;
 
   next();
 });
 
+exports.createUser = catchAsync(async (req, res, next) => {
+  const authId = req.auth;
 
+  if (!authId) {
+    return next(new AppError("Unauthorized access", 401));
+  }
+
+  const cleanData = sanitize(req.body, [
+    "f_name",
+    "l_name",
+    "phone",
+    "photo",
+  ]);
+
+  cleanData.auth = authId;
+  const authclient = await Auth.findById(authId);
+  if (!authclient) {
+    return next(new AppError("Unauthorized access", 401));
+  }
+  cleanData.email = authclient.email;
+
+  const user = await User.create(cleanData);
+
+  // Queue welcome email
+  await emailQueue.add(
+    "send-welcome",
+    {
+      type: "WELCOME",
+      payload: {
+        user: {
+          email: user.email,
+          f_name: user.f_name,
+          l_name: user.l_name,
+        },
+      },
+    },
+    {
+      attempts: 3,
+      backoff: {
+        type: "exponential",
+        delay: 2000,
+      },
+      removeOnComplete: true,
+      removeOnFail: false,
+    }
+  ).catch((err) => {
+    console.error("Failed to queue welcome email:", err.message);
+  });
+
+  res.status(201).json({
+    status: "success",
+    data: { user },
+  });
+});
+
+exports.getMe = catchAsync(async (req, res, next) => {
+  const authId = req.auth;
+
+  if (!authId) {
+    return next(new AppError("Unauthorized access", 401));
+  }
+
+  const user = await User.findOne({ auth: authId }).select("-__v");
+  const auth = await Auth.findById(authId).select("-__v");
+
+  if (!auth) {
+    return next(new AppError("Auth record not found", 404));
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      user: user || null,
+      auth: {
+        email: auth.email,
+        role: auth.role,
+        onboarded: auth.onboarded,
+
+      },
+    },
+  });
+});
 
 exports.editme = catchAsync(async (req, res, next) => {
   const authId = req.auth;
 
   if (!authId) {
     return next(new AppError("Unauthorized access", 401));
+  }
+
+  if (req.body.name && typeof req.body.name === "string" && !req.body.f_name) {
+    const parts = req.body.name.trim().split(/\s+/);
+    req.body.f_name = parts[0] || "";
+    req.body.l_name = parts.slice(1).join(" ") || "";
   }
 
   const cleanData = sanitize(req.body, [
@@ -103,10 +190,18 @@ exports.editme = catchAsync(async (req, res, next) => {
     }
   }
 
-  const update = await User.findOneAndUpdate({ auth: authId }, cleanData, {
-    new: true,
-    runValidators: true,
-  });
+  let update;
+  if (existingUser) {
+    update = await User.findOneAndUpdate({ auth: authId }, cleanData, {
+      returnDocument: "after",
+      runValidators: true,
+    });
+  } else {
+    const authclient = await Auth.findById(authId);
+    cleanData.auth = authId;
+    if (authclient) cleanData.email = authclient.email;
+    update = await User.create(cleanData);
+  }
 
   res.status(200).json({
     status: "success",
@@ -115,29 +210,46 @@ exports.editme = catchAsync(async (req, res, next) => {
   });
 });
 
-
-
-
-exports.getMyLeads = catchAsync(async (req, res, next) => {
+exports.getActiveSessions = catchAsync(async (req, res, next) => {
   const authId = req.auth;
-
   if (!authId) {
     return next(new AppError("Unauthorized access", 401));
   }
 
-  // Find all leads for this user/auth, populate form details, and sort by newest first
-  const leads = await Enquary.find({ auth: authId })
-    .populate("form", "title")
-    .sort({ createdAt: -1 });
+  // Find all active tokens for the user
+  const activeTokens = await RefreshToken.find({
+    userId: authId,
+    isRevoked: false,
+    expiresAt: { $gt: new Date() }
+  }).sort({ createdAt: -1 });
+
+  // Get current session token to identify "current device"
+  const incomingToken = req.cookies.refreshToken || req.headers["x-refresh-token"];
+  let currentHashedToken = "";
+  if (incomingToken) {
+    currentHashedToken = crypto
+      .createHash("sha256")
+      .update(incomingToken)
+      .digest("hex");
+  }
+
+  const sessions = activeTokens.map((tokenDoc) => {
+    return {
+      _id: tokenDoc._id,
+      userAgent: tokenDoc.userAgent || "Unknown Device",
+      ip: tokenDoc.ip || "Unknown IP",
+      createdAt: tokenDoc.createdAt,
+      isCurrent: tokenDoc.token === currentHashedToken
+    };
+  });
 
   res.status(200).json({
     status: "success",
-    results: leads.length,
-    data: { leads }
+    data: { sessions }
   });
 });
 
-exports.deleteLead = catchAsync(async (req, res, next) => {
+exports.revokeSession = catchAsync(async (req, res, next) => {
   const authId = req.auth;
   const { id } = req.params;
 
@@ -146,64 +258,25 @@ exports.deleteLead = catchAsync(async (req, res, next) => {
   }
 
   if (!id) {
-    return next(new AppError("Lead ID is required", 400));
+    return next(new AppError("Session ID is required", 400));
   }
 
-  const deletedLead = await Enquary.findOneAndDelete({ _id: id, auth: authId });
-
-  if (!deletedLead) {
-    return next(new AppError("Lead not found or unauthorized", 404));
-  }
-
-  res.status(200).json({
-    status: "success",
-    message: "Lead deleted successfully"
-  });
-});
-
-exports.getalluser = catchAsync(async (req, res, next) => {
-  const newuser = await User.find();
-
-  res.status(200).json({
-    status: "success",
-    newuser,
-  });
-});
-
-exports.updateUserRole = catchAsync(async (req, res, next) => {
-  const { role } = req.body;
-  if (!role || !["admin", "seller", "user"].includes(role)) {
-    return next(new AppError("Please provide a valid role (admin, seller, user)", 400));
-  }
-
-  const user = await User.findByIdAndUpdate(
-    req.params.userId,
-    { role },
-    { new: true, runValidators: true }
+  // Revoke the session by marking it as revoked
+  const tokenDoc = await RefreshToken.findOneAndUpdate(
+    { _id: id, userId: authId },
+    { isRevoked: true },
+    { returnDocument: "after" }
   );
 
-  if (!user) {
-    return next(new AppError("No user found with that ID", 404));
+  if (!tokenDoc) {
+    return next(new AppError("Session not found or already revoked", 404));
   }
+
+  // Invalidate cached refresh token
+  await delCache(`refreshToken:${tokenDoc.token}`);
 
   res.status(200).json({
     status: "success",
-    message: "User role updated successfully",
-    data: {
-      user
-    }
-  });
-});
-
-exports.deleteUser = catchAsync(async (req, res, next) => {
-  const user = await User.findByIdAndDelete(req.params.userId);
-
-  if (!user) {
-    return next(new AppError("No user found with that ID", 404));
-  }
-
-  res.status(200).json({
-    status: "success",
-    message: "User deleted successfully"
+    message: "Session revoked successfully"
   });
 });

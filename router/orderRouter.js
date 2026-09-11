@@ -11,13 +11,21 @@ Router.route("/").get(
   orderController.allOrders
 );
 
+
+
 Router.route("/order").post(
   authController.protect,
   orderController.paymentVerification,
-  orderController.createOrder,
-  notificationController.sendNotificaṭion({title:"order created"})
+  orderController.createOrder
 );
-Router.route("/checkout").get(authController.protect, orderController.checkout);
+Router.route("/checkout").post(authController.protect, orderController.checkout);
+Router.route("/cancel").post(authController.protect, orderController.cancelOrder);
+Router.route("/webhook").post(orderController.razorpayWebhook);
+
+Router.route("/my-orders").get(
+  authController.protect,
+  orderController.myOrders
+);
 
 Router.route("/:orderId")
   .get(orderController.OneOrders)
